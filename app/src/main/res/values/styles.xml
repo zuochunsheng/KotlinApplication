@@ -5,7 +5,7 @@
         <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
     <!--</style>-->
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- toolbar（actionbar）颜色 -->
         <!--<item name="colorPrimary">@color/color_3e</item>-->
         <!-- 状态栏颜色 -->
