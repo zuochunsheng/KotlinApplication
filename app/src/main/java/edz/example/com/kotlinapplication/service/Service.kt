@@ -160,7 +160,7 @@ object api {
 
 fun main(args: Array<String>) {
 
-    api.getStarGazersUnit(object:Observer<List<User>>() {
+    api.getStarGazersUnit(object: Observer<List<User>> {
 
 
         override fun onSubscribe(d: Disposable) {

@@ -3,21 +3,11 @@ package edz.example.com.kotlinapplication
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.provider.AlarmClock.EXTRA_MESSAGE
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.google.gson.Gson
-import edz.example.com.kotlinapplication.service.HttpResultObserver
-import edz.example.com.kotlinapplication.service.Service
-import edz.example.com.kotlinapplication.service.User
-import edz.example.com.kotlinapplication.service.api
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Consumer
-import io.reactivex.schedulers.Schedulers
 
 //kotlin 封装：
 fun <V : View> Activity.bindView(id: Int): Lazy<V> = lazy {
