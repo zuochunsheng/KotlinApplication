@@ -8,6 +8,7 @@
     tools:context="edz.example.com.kotlinapplication.MainActivity">
 
     <TextView
+        android:id="@+id/tv_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World Kotlin!"
@@ -25,4 +26,9 @@
         android:layout_width="200dp"
         android:layout_height="50dp" />
 
+    <Button
+        android:onClick="initByUser"
+        android:text="初始化"
+        android:layout_width="200dp"
+        android:layout_height="50dp" />
 </LinearLayout>

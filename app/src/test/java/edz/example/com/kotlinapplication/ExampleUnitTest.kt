@@ -1,5 +1,10 @@
 package edz.example.com.kotlinapplication
 
+import edz.example.com.kotlinapplication.javatest.Holeer
+import edz.example.com.kotlinapplication.service.Service
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.Consumer
+import io.reactivex.schedulers.Schedulers
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -15,8 +20,21 @@ class ExampleUnitTest {
     }
 
     @Test
-    fun suare (r : Double){
+    fun suare(r: Double) {
+
+        val c = Holeer.InnerHoleer.c
+        Holeer.InnerHoleer.b()
+
+        Holeer.INSTANCE.a()
 
         print("测试类")
     }
+
+    @Test
+    fun addition_githubService() {
+
+
+        assertEquals(4, 2 + 2)
+    }
+
 }

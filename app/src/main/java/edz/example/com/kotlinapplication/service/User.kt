@@ -5,8 +5,8 @@ package edz.example.com.kotlinapplication.service
  * description :
  *
  */
-data class User(var login: String, val id: Int, val avatar_uar: String){
-    override fun toString(): String {
-        return super.toString()
-    }
+data class User(var login: String, val id: Int, val avatar_url: String){
+//    override fun toString(): String {
+//        return super.toString()
+//    }
 }
