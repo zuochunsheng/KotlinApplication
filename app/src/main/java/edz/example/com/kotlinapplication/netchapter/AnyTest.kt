@@ -4,7 +4,7 @@ package edz.example.com.kotlinapplication.netchapter
 /**
  * @author： zcs
  * @time：2019/10/31 on 14:53
- * @description：
+ * @description：companion object
  */
 class Utils {
     private val MY_TAG = "DemoManager"

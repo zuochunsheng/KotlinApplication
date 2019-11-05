@@ -11,6 +11,13 @@ import edz.example.com.kotlinapplication.chapter.Person
 //: Any()
 open class Person constructor(var name: String, var age: Int) {
 
+    fun eat(){
+        println("chifan")
+    }
+    fun sleep():String{
+        //println("shuijiao")
+        return "shuijiao"
+    }
 }
 
 

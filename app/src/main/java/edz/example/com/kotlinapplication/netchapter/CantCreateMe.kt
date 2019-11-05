@@ -3,7 +3,7 @@ package edz.example.com.kotlinapplication.netchapter
 /**
  * @author： zcs
  * @time：2019/10/31 on 16:09
- * @description：
+ * @description：运算符 映射
  */
 
 class CantCreateMe private constructor(){

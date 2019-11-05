@@ -62,8 +62,10 @@ fun main(args: Array<String>) {
 
     // 高阶函数 - 参数是 函数
     val numbers = listOf(1, 2, 3, 4, 5, 6, 7, 8)
-//注意：我们使用::来引用一个函数。
-    println(numbers.filter(::isLargeThanFive))  //打印[6, 7, 8]
+    //
+    //numbers.forEach(::println)
+//注意：当函数一个参数时 我们可以使用::来引用这个函数。
+   // println(numbers.filter(::isLargeThanFive))  //打印[6, 7, 8]
 
     numbers.filter(
             fun(x: Int): Boolean {
@@ -80,13 +82,19 @@ fun main(args: Array<String>) {
     numbers.filter { it > 5 }
 
 
-    //val max = { x: Int, y: Int -> if (x > y) x else y }
-    //下面这句等同于上面这句代码。
+    //: (Int, Int) -> Int 返回类型
     //val max: (Int, Int) -> Int = { x: Int, y: Int -> if (x > y) x else y }
-    var arr = ArrayList<Any>();
-    arr.add("hello")
-    arr.add(12)
-    println(arr)
+
+    //val max = { x: Int, y: Int -> if (x > y) x else y }
+
+
+
+
+
+//    var arr = ArrayList<Any>();
+//    arr.add("hello")
+//    arr.add(12)
+//    println(arr)
 
     val listOf = arrayOf("Denny", "Deng")
    // Kotlin并没有可变类型，所以我们需要使用*+String集合 来表达String数组  来达到相应的目的
@@ -107,6 +115,15 @@ fun main(args: Array<String>) {
 
 
     //println(Holeer.`is`("a", "b"))  //打印false
+
+    val list = listOf(1,2,3)
+    if(list is List<*>) {  // 星投影，类似Java的 <?>
+    }
+}
+fun printTest(c: Collection<*>) {
+    val intList = c as? kotlin.collections.List<Int> ?:
+    throw IllegalArgumentException("转换失败")
+    println(intList)
 }
 
 fun connect(vararg strings: String): String {

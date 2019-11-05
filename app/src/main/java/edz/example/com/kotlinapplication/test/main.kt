@@ -13,7 +13,7 @@ fun main(args: Array<String>) {
     //vars(1,2,3,4,5)  // 输出12345
 
     // 3
-    //val sumLambda : (Int,Int)->Int ={x,y -> x+y}
+    val sumLambda : (Int,Int)->Int ={x,y -> x+y}
 
 
     //4

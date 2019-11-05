@@ -29,7 +29,7 @@ fun main(args: Array<String>) {
 //    }
 
 //
-//    for (x in 1..10 step 2) {
+//    for (x in 1..10 step 2) {// until
 //        print(x)
 //    }
 //    println()
@@ -60,10 +60,9 @@ fun main(args: Array<String>) {
 //} else {
 //    "The answer eludes me"
 //}
-
-val stringLengthFunc: (String) -> Int = { input ->
-    input.length
-}
+//返回类型 (String) -> Int
+val stringLengthFunc: (String) -> Int = { input -> input.length }
+val stringLengthFunc1 : (String) -> Int  = { it.length }
 
 //高阶函数
 fun stringMapper(str: String, mapper: (String) -> Int): Int {
@@ -72,3 +71,4 @@ fun stringMapper(str: String, mapper: (String) -> Int): Int {
 }
 
 fun maxOf(a: Int, b: Int) = if (a > b) a else b
+

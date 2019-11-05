@@ -12,7 +12,7 @@ abstract class HttpResultObserver2<T> : HttpResultObserver<ResultBean<T>>() {
         when (t.code) {
             "000000" ->
                 //T data = t.getData();
-                onSuccessResult(t.data)
+                onSuccessResult(t.data!!)
             else ->
                 //HttpResultException e = new HttpResultException(t.getCode(), t.getMessage());
                 onFailure(t.code, t.message)

@@ -1,6 +1,6 @@
 package edz.example.com.kotlinapplication.chapter
 
-import edz.example.com.kotlinapplication.chapter.Color.*
+
 import java.io.BufferedReader
 import java.io.StringReader
 

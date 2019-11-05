@@ -21,3 +21,7 @@ inline fun Fragment.toast(msg: String) {
     Toast.makeText(activity, msg, Toast.LENGTH_LONG).show()
 }
 
+
+fun empty(x : String):Boolean{
+   return   x != ""
+}
