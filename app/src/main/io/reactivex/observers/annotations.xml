@@ -1,0 +1,10 @@
+<root>
+    <item name='io.reactivex.observers.DisposableObserver'>
+        <annotation name='java.lang.Deprecated' />
+    </item>
+    <item name='io.reactivex.observers.DisposableObserver DisposableObserver()'>
+        <annotation name='org.jetbrains.annotations.Contract'>
+            <val name="pure" val="true" />
+        </annotation>
+    </item>
+</root>
