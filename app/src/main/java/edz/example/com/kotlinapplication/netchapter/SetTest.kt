@@ -10,13 +10,13 @@ package edz.example.com.kotlinapplication.netchapter
  * 一般地，记A，B是两个集合，则所有属于A且不属于B的元素构成的集合，叫做集合A减集合B（或集合A与集合B之差），
  * 类似地，对于集合A、B，我们把集合x∣x∈A,且x∉B叫做A与B的差集
  */
-fun main(args :  Array<String>){
+fun main(args :  Array<String>) {
 
     //Set<类型>或setof(元素1，元素2.。。元素n)
     //大小固定，元素类型不可变
-    val mailLine= setOf("鱼洞","南坪","碧津","江北机场")
-    val subLine= setOf("碧津","双凤桥","空港国际")
-    val subLinew= setOf("碧津","举人坝")
+    val mailLine = setOf("鱼洞", "南坪", "碧津", "江北机场")
+    val subLine = setOf("碧津", "双凤桥", "空港国际")
+    val subLinew = setOf("碧津", "举人坝")
     //元素计数：count（），空否：isEmpty()
     //print(mailLine.count())
     //检查是否包含某个元素：contains，包含另一个Set:containsAll
@@ -26,14 +26,14 @@ fun main(args :  Array<String>){
 
 
     //集合之间的运算：intersect、subtract、union、minus(补集对象无需要是Set)
-    val inter=mailLine.intersect(subLine)
+    val inter = mailLine.intersect(subLine)
     //println(inter)//-交集----->>[碧津]
     println(mailLine.subtract(subLine))//-差集----->>[鱼洞, 南坪, 江北机场]
     //println(mailLine.union(subLine))//并集----》》[鱼洞, 南坪, 碧津, 江北机场, 双凤桥, 空港国际]
     println(mailLine.minus(subLine))//补集--->>[鱼洞, 南坪, 江北机场]
 //MutableSet <类型>或mutableSetof(元素1，元素2，，，，元素n)
     //大小可变，类型不变
-    val mutableLine=mailLine.union(subLine).toMutableSet()
+    val mutableLine = mailLine.union(subLine).toMutableSet()
     //在末尾增加元素：add()方法，添加另一个集合：addAll方法
     mutableLine.add("明佳路")
     mutableLine.addAll(subLinew)
@@ -50,13 +50,6 @@ fun main(args :  Array<String>){
     val smallStations = stations_8.sliceArray(2..3)
     //println(smallStations)
     for (s in smallStations) {
-        print(s)
-    }
-
-    //创建1到n数组，Array（n，{i -> i + 1}）
-    var oneToTen = Array(10, { i -> i + 1 })
-    println(oneToTen)
-    for (s in oneToTen) {
         print(s)
     }
 }

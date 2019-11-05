@@ -83,19 +83,38 @@ fun main(args: Array<String>) {
     //val max = { x: Int, y: Int -> if (x > y) x else y }
     //下面这句等同于上面这句代码。
     //val max: (Int, Int) -> Int = { x: Int, y: Int -> if (x > y) x else y }
+    var arr = ArrayList<Any>();
+    arr.add("hello")
+    arr.add(12)
+    println(arr)
 
     val listOf = arrayOf("Denny", "Deng")
-   // Kotlin并没有可变类型，所以我们需要使用*来传递一个String数组来达到相应的目的
+   // Kotlin并没有可变类型，所以我们需要使用*+String集合 来表达String数组  来达到相应的目的
     println(Holeer.connect(*listOf))  //打印Denny,Deng
+    println(connect(*listOf))  //打印Denny,Deng
 
-    val p = Person("name",12)
-    (p as java.lang.Object).wait()
-    val fooClass = p::class.java
-    val fooClass1 = p.javaClass
+//    val p = Person("name",12)
+//    (p as java.lang.Object).wait()
+//    val fooClass = p::class.java
+//    val fooClass1 = p.javaClass
 
-    val runnable = Runnable { println("SAM") }
+   // val runnable = Runnable { println("SAM") }
 
-    println(Holeer.`is`("a", "b"))  //打印false
+    Thread(Runnable { println("SAM") })
+
+   println( Thread({println("SAM")}))
+   println( Thread({println("SAM")}))
+
+
+    //println(Holeer.`is`("a", "b"))  //打印false
+}
+
+fun connect(vararg strings: String): String {
+    val sb = StringBuilder()
+    for (string in strings) {
+        sb.append(string).append(",")
+    }
+    return sb.toString()
 }
 
 // java 和 kotlin 相互调用

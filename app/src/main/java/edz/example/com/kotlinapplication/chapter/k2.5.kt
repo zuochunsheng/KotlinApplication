@@ -22,13 +22,13 @@ import java.io.StringReader
 //        reader.close()
 //    }
 //}
-fun readNumber(reader: BufferedReader) {
+fun readNumber(reader: BufferedReader): Int? {
     val number = try {
         Integer.parseInt(reader.readLine())
     } catch (e: NumberFormatException) {
         null
     }
-
+    return number
 }
 
 fun main(args: Array<String>) {

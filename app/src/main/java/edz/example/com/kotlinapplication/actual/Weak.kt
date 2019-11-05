@@ -1,4 +1,4 @@
-package edz.example.com.kotlinapplication.netchapter
+package edz.example.com.kotlinapplication.actual
 
 import java.lang.ref.WeakReference
 import kotlin.reflect.KProperty

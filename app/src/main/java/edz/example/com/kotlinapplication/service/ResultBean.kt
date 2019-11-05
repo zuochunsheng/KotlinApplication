@@ -9,8 +9,8 @@ import android.text.TextUtils
  * @description：
  */
 class ResultBean<T> : AbstractResultBean() {
-    override val code: String? = null
-    override val message: String? = null
+    override val code: String = ""
+    override val message: String = ""
     val data: T? = null
 
     override fun success(): Boolean {
