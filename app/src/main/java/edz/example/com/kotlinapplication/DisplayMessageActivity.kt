@@ -1,11 +1,9 @@
 package edz.example.com.kotlinapplication
 
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import kotlin.properties.Delegates
+
 
 class DisplayMessageActivity : AppCompatActivity() {
 
@@ -25,7 +23,7 @@ class DisplayMessageActivity : AppCompatActivity() {
         textView = findViewById(R.id.textView)
 
         val message = intent.getStringExtra(EXTRA_MESSAGE_MAIN)
-        textView.apply {
+        textView?.apply {
             text = message
         }
 
@@ -42,6 +40,7 @@ class DisplayMessageActivity : AppCompatActivity() {
         // call superclass to save any view hierarchy
         super.onSaveInstanceState(outState)
     }
+
 
 
 

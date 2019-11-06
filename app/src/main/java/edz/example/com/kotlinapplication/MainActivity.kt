@@ -43,6 +43,10 @@ class MainActivity : AppCompatActivity() {
                 .apply { putExtra(EXTRA_MESSAGE_MAIN, message) }
         startActivity(intent)
     }
+    fun skipNextCoroutine(view: View){
+        val intent = Intent(this, CoroutinesActivity::class.java)
+        startActivity(intent)
+    }
 
     fun initByUser(view: View) {
 
