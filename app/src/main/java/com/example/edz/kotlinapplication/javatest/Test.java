@@ -14,6 +14,9 @@ public class Test {
        // ExtensionKt.empty("adbd");
 
         //SingleInstance.
+        //SingleInstance.INSTANCE
+
+
     }
 
 

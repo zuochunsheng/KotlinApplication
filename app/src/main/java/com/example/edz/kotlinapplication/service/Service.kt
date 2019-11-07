@@ -60,7 +60,7 @@ interface GitHubService {
 
 
     @GET("repos/bingoogolapple/BGAQRCode-Android/watchers")
-    fun getStarGazers(): Observable<User>
+    fun getStarGazers(): Observable<List<User>>
 
 
     @Multipart

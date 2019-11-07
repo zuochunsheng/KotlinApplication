@@ -63,7 +63,7 @@ fun main(args: Array<String>) {
     // 高阶函数 - 参数是 函数
     val numbers = listOf(1, 2, 3, 4, 5, 6, 7, 8)
     //
-    //numbers.forEach(::println)
+    numbers.forEach(::println)
 //注意：当函数一个参数时 我们可以使用::来引用这个函数。
    // println(numbers.filter(::isLargeThanFive))  //打印[6, 7, 8]
 
