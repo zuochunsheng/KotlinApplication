@@ -8,7 +8,7 @@ import java.io.File
 /**
  * @author： zcs
  * @time：2019/11/7 on 18:10
- * @description：
+ * @description：上传图片
  */
 object OkHttpUtil {
     fun createTextRequestBody(source: String): RequestBody

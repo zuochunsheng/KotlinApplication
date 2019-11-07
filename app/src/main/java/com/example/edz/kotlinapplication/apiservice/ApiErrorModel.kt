@@ -6,4 +6,4 @@ package com.example.edz.kotlinapplication.apiservice
  * @description：
  */
 data class ApiErrorModel(var status: Int, var message: String)
-data class ResponseWrapper<T>(var code: Int, var data: T, var message: String)
+

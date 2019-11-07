@@ -1,12 +1,14 @@
 package com.example.edz.kotlinapplication.service
 
 
-import android.content.Context
 import android.util.Log
 import com.trello.rxlifecycle3.android.ActivityEvent
 import com.trello.rxlifecycle3.components.support.RxAppCompatActivity
 import com.trello.rxlifecycle3.kotlin.bindUntilEvent
 import com.example.edz.kotlinapplication.apiservice.ApiResponse
+import com.example.edz.kotlinapplication.apiservice.RequestCallback
+import com.example.edz.kotlinapplication.apiservice.ResponseWrapper
+import com.example.edz.kotlinapplication.data.ReposUser
 import com.example.edz.kotlinapplication.service.Service.gitHubService
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
@@ -15,19 +17,19 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.annotations.NonNull
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Path
+import retrofit2.http.*
 import java.security.KeyManagementException
 import java.security.NoSuchAlgorithmException
 import java.security.SecureRandom
 import java.security.cert.CertificateException
 import java.security.cert.X509Certificate
-import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.net.ssl.HostnameVerifier
 import javax.net.ssl.SSLContext
@@ -49,12 +51,22 @@ interface GitHubService {
     @GET("users/google/repos")
     fun getRepos(): Observable<List<ReposUser>>
 
-    @GET("users/{user}/repos")
-    fun listRepos(@Path("user") user: String): Observable<List<ReposUser>>
+    // 解剖后的databean
+    @GET("users/google/repos")
+    fun repos() : Observable<ResponseWrapper<List<ReposUser>>>
+
+//    @GET("users/{user}/repos")
+//    fun listRepos(@Path("user") user: String): Observable<List<ReposUser>>
 
 
     @GET("repos/bingoogolapple/BGAQRCode-Android/watchers")
-    fun getStarGazers(): Observable<List<User>>
+    fun getStarGazers(): Observable<User>
+
+
+    @Multipart
+    @POST("xxxx/xxxx") //imaginary URL
+    fun updateImage(@Part("name") name: RequestBody,
+                    @Part image: MultipartBody.Part): Observable<User>
 
 }
 
@@ -151,13 +163,21 @@ object NetworkScheduler {
     }
 }
 
-
+// 可以不用
 object api {
 
 
     // 使用
     fun getRepos(context: RxAppCompatActivity, observer: ApiResponse<List<ReposUser>>): Unit {
         gitHubService().getRepos()
+                .compose(NetworkScheduler.compose())            //线程切换处理
+                .bindUntilEvent(context, ActivityEvent.DESTROY) //RxLifecycle 生命周期管理
+                .subscribe(observer)
+    }
+
+    // 使用
+    fun repos(context: RxAppCompatActivity, observer: RequestCallback<List<ReposUser>>): Unit {
+        gitHubService().repos()
                 .compose(NetworkScheduler.compose())            //线程切换处理
                 .bindUntilEvent(context, ActivityEvent.DESTROY) //RxLifecycle 生命周期管理
                 .subscribe(observer)
