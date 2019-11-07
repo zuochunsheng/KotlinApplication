@@ -8,5 +8,6 @@ package com.example.edz.kotlinapplication.single
  */
 
 object  SingleInstance{
+    var cone = "1vc"
 
 }
