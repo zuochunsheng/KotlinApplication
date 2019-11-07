@@ -9,12 +9,14 @@ import android.app.Application
  */
 class App : Application() {
     companion object {
-        private var instance: Application? = null
-        fun  instance() = instance!!
+        lateinit var instance: Application
+            private set
+
     }
 
     override fun onCreate() {
         super.onCreate()
         instance = this
+
     }
 }

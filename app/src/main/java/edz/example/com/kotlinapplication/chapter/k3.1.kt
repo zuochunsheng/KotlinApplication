@@ -88,8 +88,8 @@ fun main(args: Array<String>) {
 //    val numbers = setOf(1, 14, 2)
 //    println(numbers.max())
 
-
-   // val list = listOf(1, 2, 3)
+       var setlist = setOf<String>("a", "b", "c")
+    val list = listOf(1, 2, 3)
 //    println(joinToString(list, "; ", "(", ")"))
 
 

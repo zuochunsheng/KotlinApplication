@@ -15,4 +15,39 @@
 
         />
 
+    <TextView
+        android:id="@+id/tv_sp_put"
+        android:onClick="sp_put"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="sp_put"
+        />
+
+    <TextView
+        android:id="@+id/tv_sp_get"
+        android:onClick="sp_get"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="sp_get"
+        />
+
+    <TextView
+        android:id="@+id/tv_sp_remove"
+        android:onClick="sp_remove"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="sp_remove"
+        />
+
+    <TextView
+        android:id="@+id/tv_sp_clear"
+        android:onClick="sp_clear"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="sp_clear"
+        />
 </LinearLayout>

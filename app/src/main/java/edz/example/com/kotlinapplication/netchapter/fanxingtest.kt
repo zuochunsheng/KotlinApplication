@@ -135,3 +135,8 @@ fun connect(vararg strings: String): String {
 }
 
 // java 和 kotlin 相互调用
+//List<? extends T> src是生产者，也就是数据提供者，在Kotlin中叫out T。生产者不能写入数据，只能读取。
+//List<? super T> dest是消费者，也就是吞掉一些数据，或者说会有数据写入到该对象中，在Kotlin中叫in T，消费者可以写入T或者T的子类。
+
+//在Kotlin中，我们把那些只能保证读取数据时类型安全的对象叫做生产者，用 out T标记；
+//把那些只能保证写入数据安全时类型安全的对象叫做消费者，用 in T标记。
