@@ -10,7 +10,7 @@ import edz.example.com.kotlinapplication.actual.ExtensionKt;
 public class Test {
 
     public static void main(String...args){
-        ExtensionKt.empty("adbd");
+       // ExtensionKt.empty("adbd");
 
     }
 }

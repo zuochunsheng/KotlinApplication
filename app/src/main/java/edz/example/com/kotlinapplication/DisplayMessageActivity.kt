@@ -1,10 +1,13 @@
 package edz.example.com.kotlinapplication
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import edz.example.com.kotlinapplication.actual.Preference
+import edz.example.com.kotlinapplication.actual.toast
 
 
 class DisplayMessageActivity : AppCompatActivity() {
@@ -95,6 +98,7 @@ class DisplayMessageActivity : AppCompatActivity() {
         prefs.clear()
         //clear 之后再获取 是默认值
 
+        toast("clear")
     }
 
 

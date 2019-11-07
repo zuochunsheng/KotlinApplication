@@ -1,5 +1,6 @@
 package edz.example.com.kotlinapplication.netchapter
 
+import edz.example.com.kotlinapplication.actual.Weak
 import kotlin.properties.Delegates
 
 
@@ -34,6 +35,8 @@ class User {
         println("${prop.name}   $old -> $new")
     })
 
+    //弱引用
+    private var asb  by Weak<String>()
 
 }
 

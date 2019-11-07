@@ -40,18 +40,15 @@ private var mOkHttpClient: OkHttpClient? = null
 
 interface GitHubService {
 
-    @GET("repos/bingoogolapple/BGAQRCode-Android/watchers")
-    fun getStarGazersUnit(): Observable<List<User>>
-
+    @GET("users/google/repos")
+    fun getRepos(): Observable<List<ReposUser>>
 
     @GET("repos/bingoogolapple/BGAQRCode-Android/watchers")
     fun getStarGazers(): Observable<List<User>>
 
-
 }
 
 object Service {
-
     /* 请求超时时间 */
     private val TIME_OUT_PERIOD = 60
     private var trustManagers = arrayOf(object : X509TrustManager {
@@ -69,7 +66,6 @@ object Service {
             return arrayOfNulls(0)
         }
     })
-
 
     @NonNull
     private fun getBuilder(isHttpsSSL: Boolean): OkHttpClient.Builder {
@@ -123,9 +119,6 @@ object Service {
 
     fun createRetrofit(): Retrofit {
         /* 对 retrfit 进行建造 */
-//    var retrofit :Retrofit  by lazy {
-//
-//    }
         return Retrofit.Builder()
                 .client(createDefaultClient())
                 .baseUrl(mBaseUrl)
@@ -137,13 +130,13 @@ object Service {
     fun gitHubService(): GitHubService {
         return createRetrofit().create(GitHubService::class.java)
     }
-
 }
 
 object api {
 
+    //结果不是统一处理  不使用
     fun getStarGazersUnit(observer: Observer<List<User>>): Unit {
-        gitHubService().getStarGazersUnit()
+        gitHubService().getStarGazers()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);

@@ -3,11 +3,16 @@ package edz.example.com.kotlinapplication
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.google.gson.Gson
+import edz.example.com.kotlinapplication.service.HttpResultObserver
+import edz.example.com.kotlinapplication.service.User
+import edz.example.com.kotlinapplication.service.api
 
 //kotlin 封装：
 fun <V : View> Activity.bindView(id: Int): Lazy<V> = lazy {
@@ -60,30 +65,6 @@ class MainActivity : AppCompatActivity() {
             gravity = Gravity.CENTER
         }
 
-        // ok
-//        Service.gitHubService().getStarGazers()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(Consumer {
-//                    it.map() {
-//                        var gson = Gson()
-//                        Log.e("user", gson.toJson(it))
-//                    }
-//                })
-
-//        var disposable = api.getStarGazers(object : HttpResultObserver<List<User>>() {
-//            protected override fun onResult(resultBean: List<User>) {
-//                var gson = Gson()
-//                Log.e("user disposable", gson.toJson(resultBean))
-//
-//            }
-//
-//            protected override fun onFailure(code: String, error: String) {
-//                //LogUtil.e("onFailure vcode:"+mView.getSmsParament().getVcode());
-//
-//            }
-//
-//        })
     }
 
 }

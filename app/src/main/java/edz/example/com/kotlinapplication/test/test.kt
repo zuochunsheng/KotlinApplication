@@ -72,3 +72,8 @@ fun stringMapper(str: String, mapper: (String) -> Int): Int {
 
 fun maxOf(a: Int, b: Int) = if (a > b) a else b
 
+
+fun main1(args: Array<String>) {
+    //使用方法
+    repeat(10) { print("index:$it")}
+}
