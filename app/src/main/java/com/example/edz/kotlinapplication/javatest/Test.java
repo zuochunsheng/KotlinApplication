@@ -1,6 +1,7 @@
 package com.example.edz.kotlinapplication.javatest;
 
 import com.example.edz.kotlinapplication.actual.ExtensionKt;
+import com.example.edz.kotlinapplication.single.SingleInstance;
 
 /**
  * @author： zcs
@@ -12,5 +13,8 @@ public class Test {
     public static void main(String...args){
        // ExtensionKt.empty("adbd");
 
+        //SingleInstance.
     }
+
+
 }
