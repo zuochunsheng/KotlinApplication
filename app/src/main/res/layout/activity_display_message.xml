@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="edz.example.com.kotlinapplication.DisplayMessageActivity">
+    tools:context="com.example.edz.kotlinapplication.DisplayMessageActivity">
 
     <TextView
         android:id="@+id/textView"

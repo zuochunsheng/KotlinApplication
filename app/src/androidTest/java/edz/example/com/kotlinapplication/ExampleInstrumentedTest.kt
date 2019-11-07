@@ -1,10 +1,10 @@
-package edz.example.com.kotlinapplication
+package com.example.edz.kotlinapplication
 
 import android.util.Log
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
 import com.google.gson.Gson
-import edz.example.com.kotlinapplication.service.Service
+import com.example.edz.kotlinapplication.service.Service
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
@@ -26,7 +26,7 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("edz.example.com.kotlinapplication", appContext.packageName)
+        assertEquals("com.example.edz.kotlinapplication", appContext.packageName)
     }
 
     @Test

@@ -1,7 +1,7 @@
-package edz.example.com.kotlinapplication
+package com.example.edz.kotlinapplication
 
-import edz.example.com.kotlinapplication.javatest.Holeer
-import edz.example.com.kotlinapplication.service.Service
+import com.example.edz.kotlinapplication.javatest.Holeer
+import com.example.edz.kotlinapplication.service.Service
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
