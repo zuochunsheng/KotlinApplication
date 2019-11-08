@@ -60,10 +60,10 @@ fun main(args: Array<String>) {
     }
 
 
-//    ifNotNull(p, "abc") {
-//        p, value2 ->
-//        //todo
-//    }
+    ifNotNull(p, "abc") {
+        p, value2 ->
+        //todo
+    }
 
   var pp =  checkNotNull(p,{"Activity parameter 'PHOTO_URL' is missing" })
 //    requireNotNull(p,{"Activity parameter 'PHOTO_URL' is missing" })
