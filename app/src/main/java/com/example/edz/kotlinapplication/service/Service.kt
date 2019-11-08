@@ -8,8 +8,12 @@ import com.trello.rxlifecycle3.kotlin.bindUntilEvent
 import com.example.edz.kotlinapplication.apiservice.ApiResponse
 import com.example.edz.kotlinapplication.apiservice.RequestCallback
 import com.example.edz.kotlinapplication.apiservice.ResponseWrapper
+import com.example.edz.kotlinapplication.data.CalentarDayBean
+import com.example.edz.kotlinapplication.data.CalentarMonthBean
+import com.example.edz.kotlinapplication.data.CalentarYearBean
 import com.example.edz.kotlinapplication.data.ReposUser
 import com.example.edz.kotlinapplication.service.Service.gitHubService
+import com.example.edz.kotlinapplication.util.Constants
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 import io.reactivex.Observer
@@ -42,7 +46,7 @@ import javax.net.ssl.X509TrustManager
  * https://api.github.com/repos/bingoogolapple/BGAQRCode-Android/watchers
  */
 
-private  var mBaseUrl = "https://api.github.com/"
+
 //private var retrofit: Retrofit = null
 //private var mOkHttpClient: OkHttpClient? = null
 
@@ -55,9 +59,6 @@ interface GitHubService {
     @GET("users/google/repos")
     fun repos() : Observable<ResponseWrapper<List<ReposUser>>>
 
-//    @GET("users/{user}/repos")
-//    fun listRepos(@Path("user") user: String): Observable<List<ReposUser>>
-
 
     @GET("repos/bingoogolapple/BGAQRCode-Android/watchers")
     fun getStarGazers(): Observable<List<User>>
@@ -68,9 +69,44 @@ interface GitHubService {
     fun updateImage(@Part("name") name: RequestBody,
                     @Part image: MultipartBody.Part): Observable<User>
 
+
+
+    //xin
+    /*====================================================*/
+    /**
+     *  获取当天详细信息
+     *  @param date 日期
+     */
+    @GET("calendar/day")
+    fun calenderDay(
+            @Query("date") date: String,
+            @Query("key") key: String
+    ): Observable<CalentarDayBean>
+
+    /**
+     *  获取近期假期
+     *  @param date 日期
+     */
+    @GET("calendar/month")
+    fun calenderMonth(
+            @Query("date") date: String
+    ): Observable<CalentarMonthBean>
+
+    /**
+     *  获取当年假期列表
+     *  @param date 日期
+     */
+    @GET("calendar/year")
+    fun calenderYear(
+            @Query("date") date: String
+    ): Observable<CalentarYearBean>
+
+
+
 }
 
 object Service {
+    private  var mBaseUrl = "https://api.github.com/"
     /* 请求超时时间 */
     private val TIME_OUT_PERIOD = 60
     private var trustManagers = arrayOf(object : X509TrustManager {
@@ -139,18 +175,17 @@ object Service {
         return builder.build()
     }
 
-    fun createRetrofit(): Retrofit {
-        /* 对 retrfit 进行建造 */
-        return Retrofit.Builder()
+    val createRetrofit: Retrofit by lazy {
+        Retrofit.Builder()
                 .client(createDefaultClient())
-                .baseUrl(mBaseUrl)
+                .baseUrl(Constants.REQUEST_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
     }
 
-    fun gitHubService(): GitHubService {
-        return createRetrofit().create(GitHubService::class.java)
+    val gitHubService: GitHubService by lazy {
+        createRetrofit.create(GitHubService::class.java)
     }
 }
 
@@ -169,7 +204,7 @@ object api {
 
     // 使用
     fun getRepos(context: RxAppCompatActivity, observer: ApiResponse<List<ReposUser>>): Unit {
-        gitHubService().getRepos()
+        gitHubService.getRepos()
                 .compose(NetworkScheduler.compose())            //线程切换处理
                 .bindUntilEvent(context, ActivityEvent.DESTROY) //RxLifecycle 生命周期管理
                 .subscribe(observer)
@@ -177,7 +212,7 @@ object api {
 
     // 使用
     fun repos(context: RxAppCompatActivity, observer: RequestCallback<List<ReposUser>>): Unit {
-        gitHubService().repos()
+        gitHubService.repos()
                 .compose(NetworkScheduler.compose())            //线程切换处理
                 .bindUntilEvent(context, ActivityEvent.DESTROY) //RxLifecycle 生命周期管理
                 .subscribe(observer)
@@ -185,7 +220,7 @@ object api {
 
     //结果不是统一处理  不使用
     fun getStarGazersUnit(observer: Observer<List<User>>): Unit {
-        gitHubService().getStarGazers()
+        gitHubService.getStarGazers()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer)
@@ -193,11 +228,18 @@ object api {
 
     //onDestory , Disposable 需要处理
     fun getStarGazers(observer: HttpResultObserver<List<User>>): Disposable {
-        return gitHubService().getStarGazers()
+        return gitHubService.getStarGazers()
                 .compose(NetworkScheduler.compose())
                 .subscribeWith(observer)
     }
 
+    //xin
+    fun calenderDay(context: RxAppCompatActivity,date:String, observer: ApiResponse<CalentarDayBean>): Unit {
+        gitHubService.calenderDay(date,"933dc930886c8c0717607f9f8bae0b48")
+                .compose(NetworkScheduler.compose())            //线程切换处理
+                .bindUntilEvent(context, ActivityEvent.DESTROY) //RxLifecycle 生命周期管理
+                .subscribe(observer)
+    }
 }
 
 

@@ -8,6 +8,7 @@ import com.example.edz.kotlinapplication.actual.toast
 import com.example.edz.kotlinapplication.apiservice.ApiErrorModel
 import com.example.edz.kotlinapplication.apiservice.ApiResponse
 import com.example.edz.kotlinapplication.apiservice.RequestCallback
+import com.example.edz.kotlinapplication.data.CalentarDayBean
 import com.example.edz.kotlinapplication.data.ReposUser
 import com.example.edz.kotlinapplication.service.NetworkScheduler
 import com.example.edz.kotlinapplication.service.NetworkScheduler.compose
@@ -17,10 +18,14 @@ import com.example.edz.kotlinapplication.service.api
 import com.example.edz.kotlinapplication.util.OkHttpUtil
 import com.trello.rxlifecycle3.android.ActivityEvent
 import com.trello.rxlifecycle3.kotlin.bindUntilEvent
+import kotlinx.android.synthetic.main.activity_display_message.*
 import kotlinx.android.synthetic.main.activity_retrofit_rx_kotlin.*
 import java.io.File
 
 class RetrofitRxKotlinActivity : RxAppCompatActivity() {
+
+    lateinit var file: File
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,9 +35,13 @@ class RetrofitRxKotlinActivity : RxAppCompatActivity() {
             override fun onClick(view: View?) {
                // fetchRepo()
                // repos()
-                upload()
+               // upload()
+                calenderDay()
             }
         })
+
+        //lateinit判断是否初始化
+        if (::file.isInitialized) {  }
     }
 
     private fun fetchRepo() {
@@ -71,7 +80,7 @@ class RetrofitRxKotlinActivity : RxAppCompatActivity() {
 
     fun upload(){
         var file = File("/")
-        Service.gitHubService().updateImage(OkHttpUtil.createTextRequestBody("Bob"),
+        Service.gitHubService.updateImage(OkHttpUtil.createTextRequestBody("Bob"),
                 OkHttpUtil.createPartWithAllImageFormats("avatar",file))   //此处调用OkHttpUtil中的方法
                 .compose(NetworkScheduler.compose())
                 .bindUntilEvent(this, ActivityEvent.DESTROY)
@@ -84,6 +93,19 @@ class RetrofitRxKotlinActivity : RxAppCompatActivity() {
                         //Do something
                     }
                 })
+    }
+
+    private fun calenderDay(){
+        api.calenderDay(this,"2019-11-08",object :ApiResponse<CalentarDayBean>(this){
+            override fun success(data: CalentarDayBean) {
+
+            }
+
+            override fun failure(statusCode: Int, apiErrorModel: ApiErrorModel) {
+
+            }
+
+        })
     }
 
 }
