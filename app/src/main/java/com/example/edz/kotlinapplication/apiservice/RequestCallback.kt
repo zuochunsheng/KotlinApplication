@@ -7,7 +7,6 @@ import io.reactivex.disposables.Disposable
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
-import kotlin.Result.Companion.failure
 
 /**
  * @author： zcs

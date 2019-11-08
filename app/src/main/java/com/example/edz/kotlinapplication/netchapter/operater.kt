@@ -5,14 +5,7 @@ import java.util.*
 import kotlin.reflect.KProperty
 
 /**
- * @author： zcs
- * @time：2019/11/1 on 9:38
- * @description：
- */
-
-
-/**
- * @author:wangdong
+ * @author:
  * @description:Kotlin运算符的一些实例
  */
 

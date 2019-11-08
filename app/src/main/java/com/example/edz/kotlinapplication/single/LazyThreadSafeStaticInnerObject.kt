@@ -10,11 +10,24 @@ package com.example.edz.kotlinapplication.single
  */
 class LazyThreadSafeStaticInnerObject private constructor(){
     companion object {
-        fun getInstance() = Holder.instance
+        //fun getInstance() = SingletonHolder.holder
+        val instance = SingletonHolder.holder
     }
-    private object Holder {
-        var instance = LazyThreadSafeStaticInnerObject()
+    private object SingletonHolder  {
+        var holder = LazyThreadSafeStaticInnerObject()
     }
-
 
 }
+
+//Java实现
+//public class SingletonDemo {
+//    private static class SingletonHolder{
+//        private static SingletonDemo instance=new SingletonDemo();
+//    }
+//    private SingletonDemo(){
+//
+//    }
+//    public static SingletonDemo getInstance(){
+//        return SingletonHolder.instance;
+//    }
+//}
