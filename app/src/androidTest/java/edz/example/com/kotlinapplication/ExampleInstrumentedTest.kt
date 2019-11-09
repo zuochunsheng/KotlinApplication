@@ -32,7 +32,7 @@ class ExampleInstrumentedTest {
     @Test
     fun useAppContext_github_service() {
         // Context of the app under test.
-        Service.gitHubService().getStarGazers()
+        Service.gitHubService.getStarGazers()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(Consumer {

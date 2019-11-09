@@ -1,11 +1,17 @@
 package com.example.edz.kotlinapplication.test
 
+import android.provider.ContactsContract
+import java.util.*
+
 
 /**
  * anther: created by zuochunsheng on 2019/11/8 00 : 45
  * description :
  *
  */
+
+//var abcdef = 20
+
 fun main(args: Array<String>) {
     //使用方法
     // repeat(10) { println("index:$it") }
@@ -49,6 +55,45 @@ fun main(args: Array<String>) {
 
     // greaterThanZero(3)
     //checkThanZero(-1)
+
+
+   // var a = 20
+//
+//    println(a++)//20
+//    println(a)//21
+//
+//    var b = 20
+//
+//    println(++b)//21
+//    println(b)//21
+
+//    ++ 放到前面 先自增后实用，
+//    ++ 放在后面 先使用再自增
+
+//    val text = """
+//        |First Line
+//        |Second Line
+//        |Third Line
+//        """.trimMargin()
+//
+//    println(text)
+
+//    val profiles = loadProfiles(context)
+//    Collections.sort(profiles, object : Comparator<ContactsContract.Profile>() {
+//        fun compare(profile1: ContactsContract.Profile, profile2: ContactsContract.Profile): Int {
+//            if (profile1.getAge() > profile2.getAge()) return 1
+//            return if (profile1.getAge() < profile2.getAge()) -1 else 0
+//        }
+//    })
+
+//    profile.sortedWith(Comparator({ profile1, profile2 ->
+//        if (profile1.age > profile2.age) return@Comparator 1
+//        if (profile1.age < profile2.age) return@Comparator -1
+//        return@Comparator 0
+//    }))
+
+   // println(::abcdef.get())
+
 }
 
 class Friend_add_adfd_fsf(var name: String) {
