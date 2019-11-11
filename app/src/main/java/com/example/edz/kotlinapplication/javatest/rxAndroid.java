@@ -1,7 +1,7 @@
 package com.example.edz.kotlinapplication.javatest;
 
-import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -18,15 +18,16 @@ public class rxAndroid {
 //                .blockingSubscribe(System.out::println);
 //
 //
-//        Observable<Number> numbers = Observable.just(1, 4.0, 3, 2.71, 2f, 7);
-//        Observable<Integer> integers = numbers.ofType(Integer.class);
-//        integers.subscribe((Integer x) -> System.out.print(x+" "));
+        Observable<Number> numbers = Observable.just(1, 4.0, 3, 2.71, 2f, 7);
+        Observable<Integer> integers = numbers.ofType(Integer.class);
+       // integers.subscribe((Integer x) -> System.out.print(x+" "));
 
 
 
     }
 
     public static void main(String...args){
+
 
     }
 

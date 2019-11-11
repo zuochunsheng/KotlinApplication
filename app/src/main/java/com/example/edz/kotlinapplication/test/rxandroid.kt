@@ -11,6 +11,9 @@ import io.reactivex.Observable
 fun main(args: Array<String>) {
 
 
+    val numbers = Observable.just(1, 4.0, 3, 2.71, 2f, 7)
+    val integers = numbers.ofType(Int::class.java)
+    integers.subscribe { x: Int -> print(x.toString() + " ") }
 
 
 }
