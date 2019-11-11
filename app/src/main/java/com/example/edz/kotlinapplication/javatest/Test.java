@@ -1,7 +1,5 @@
 package com.example.edz.kotlinapplication.javatest;
 
-import com.example.edz.kotlinapplication.actual.ExtensionKt;
-import com.example.edz.kotlinapplication.single.SingleInstance;
 
 /**
  * @author： zcs

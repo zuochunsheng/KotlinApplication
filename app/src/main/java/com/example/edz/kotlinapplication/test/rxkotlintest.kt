@@ -11,8 +11,24 @@ import io.reactivex.schedulers.Schedulers
  */
 
 fun main(args: Array<String>) {
-    Observable.just("one", "two", "three", "four", "five")
-            .subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(/* an Observer */);
+
+    val list = listOf("Alpha", "Beta", "Gamma", "Delta", "Epsilon")
+
+//    list.toObservable() // extension function for Iterables
+//            .filter { it.length >= 5 }
+//            .subscribeBy(  // named arguments for lambda Subscribers
+//                    onNext = { println(it) },
+//                    onError = { it.printStackTrace() },
+//                    onComplete = { println("Done!") }
+//            )
+
+//    list.toFlowable()
+//            .filter({ it.length >= 5 })
+//            .subscribeBy(
+//                onError = { it.printStackTrace()},
+//                onComplete = { println("Done!")},
+//                onNext = {println(it) }
+//            )
+
+
 }
