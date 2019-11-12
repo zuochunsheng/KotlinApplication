@@ -15,6 +15,7 @@ import com.example.edz.kotlinapplication.data.ReposUser
 import com.example.edz.kotlinapplication.service.Service.gitHubService
 import com.example.edz.kotlinapplication.util.Constants
 import io.reactivex.Observable
+import io.reactivex.ObservableSource
 import io.reactivex.ObservableTransformer
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -189,14 +190,14 @@ object Service {
     }
 }
 
-object NetworkScheduler {
-    fun <T> compose(): ObservableTransformer<T, T> {
-        return ObservableTransformer { observable ->
-            observable.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-        }
+//object NetworkScheduler {
+fun <T> compose(): ObservableTransformer<T, T> {
+    return ObservableTransformer { observable ->
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
     }
 }
+//}
 
 // 可以不用
 object api {
@@ -205,7 +206,7 @@ object api {
     // 使用
     fun getRepos(context: RxAppCompatActivity, observer: ApiResponse<List<ReposUser>>): Unit {
         gitHubService.getRepos()
-                .compose(NetworkScheduler.compose())            //线程切换处理
+                .compose(compose())            //线程切换处理
                 .bindUntilEvent(context, ActivityEvent.DESTROY) //RxLifecycle 生命周期管理
                 .subscribe(observer)
     }
@@ -213,7 +214,7 @@ object api {
     // 使用
     fun repos(context: RxAppCompatActivity, observer: RequestCallback<List<ReposUser>>): Unit {
         gitHubService.repos()
-                .compose(NetworkScheduler.compose())            //线程切换处理
+                .compose(compose())            //线程切换处理
                 .bindUntilEvent(context, ActivityEvent.DESTROY) //RxLifecycle 生命周期管理
                 .subscribe(observer)
     }
@@ -229,14 +230,14 @@ object api {
     //onDestory , Disposable 需要处理
     fun getStarGazers(observer: HttpResultObserver<List<User>>): Disposable {
         return gitHubService.getStarGazers()
-                .compose(NetworkScheduler.compose())
+                .compose(compose())
                 .subscribeWith(observer)
     }
 
     //xin
     fun calenderDay(context: RxAppCompatActivity,date:String, observer: ApiResponse<CalentarDayBean>): Unit {
         gitHubService.calenderDay(date,"933dc930886c8c0717607f9f8bae0b48")
-                .compose(NetworkScheduler.compose())            //线程切换处理
+                .compose(compose())            //线程切换处理
                 .bindUntilEvent(context, ActivityEvent.DESTROY) //RxLifecycle 生命周期管理
                 .subscribe(observer)
     }
@@ -277,8 +278,5 @@ fun main(args: Array<String>) {
         }
 
     })
-
-
-
 
 }

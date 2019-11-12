@@ -19,6 +19,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
+import io.reactivex.ObservableTransformer;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -384,6 +385,47 @@ public class rxAndroid {
 //                .subscribe(System.out::println);
 
 
+        List<String> list = new ArrayList<>();
+        for (int i = 1; i < 10; i++) {
+            list.add("" + i);
+        }//1 - 9
+        Observable<String> observable = Observable.fromIterable(list);
+        //第1、2 个数据打成一个数据包，跳过第三个数据 ； 第4、5个数据打成一个包，跳过第6个数据
+        observable.buffer(2, 3)  //把每两个数据为一组打成一个包，然后发送。第三个数据跳过去
+                .subscribe(new Consumer<List<String>>() {
+                    @Override
+                    public void accept(List<String> strings) {
+
+                        System.out.println("buffer22---------------");
+                        Observable.fromIterable(strings).subscribe(new Consumer<String>() {
+                            @Override
+                            public void accept(String s) {
+                                System.out.println("buffer22 data --" + s);
+                            }
+                        });
+                    }
+                });
+
+
+        Observable.interval(1, TimeUnit.SECONDS)
+                .throttleFirst(3, TimeUnit.SECONDS)
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) {
+                        System.out.println("throttleFirst--" + aLong);
+                    }
+                });
+
+
+        Observable
+                .just("123")
+                .compose(RxUtil.compose())
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String s) {
+                        System.out.println(s);
+                    }
+                });
     }
 
     public static void actionFlatMapIterable() {
@@ -403,11 +445,13 @@ public class rxAndroid {
         });
     }
 
+
     public static void main(String... args) {
         //print();
         //hello();
-         operate();
+        operate();
     }
 
 
 }
+
