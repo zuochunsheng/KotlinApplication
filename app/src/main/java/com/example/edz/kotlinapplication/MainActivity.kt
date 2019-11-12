@@ -1,18 +1,29 @@
 package com.example.edz.kotlinapplication
 
+import com.example.edz.kotlinapplication.R
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.edz.kotlinapplication.actual.toast
+import com.example.edz.kotlinapplication.chapter.list
 import com.google.gson.Gson
 import com.example.edz.kotlinapplication.service.HttpResultObserver
 import com.example.edz.kotlinapplication.service.User
 import com.example.edz.kotlinapplication.service.api
+import io.reactivex.Observable
+import io.reactivex.ObservableOnSubscribe
+import io.reactivex.ObservableSource
+import io.reactivex.functions.Consumer
+import io.reactivex.functions.Function
+import io.reactivex.schedulers.Schedulers
+import java.util.*
 
 //kotlin 封装：
 fun <V : View> Activity.bindView(id: Int): Lazy<V> = lazy {
@@ -48,7 +59,8 @@ class MainActivity : AppCompatActivity() {
                 .apply { putExtra(EXTRA_MESSAGE_MAIN, message) }
         startActivity(intent)
     }
-    fun skipNextCoroutine(view: View){
+
+    fun skipNextCoroutine(view: View) {
         val intent = Intent(this, CoroutinesActivity::class.java)
         startActivity(intent)
     }
@@ -67,9 +79,78 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun skipNextRetrofitKotlin(view: View){
-        val intent = Intent(this, RetrofitRxKotlinActivity::class.java)
-        startActivity(intent)
+    fun skipNextRetrofitKotlin(view: View) {
+//        val intent = Intent(this, RetrofitRxKotlinActivity::class.java)
+//        startActivity(intent)
+        toast("skipNextRetrofitKotlin")
+        //actionFlatMap();
+
+        //operate();
+        actionSwitchMap();
     }
+
+    fun operate() {
+        val list = listOf(1, 2, 3, 4)
+        Observable.fromIterable(list)
+                .switchMap(object : Function<Int, ObservableSource<String>> {
+                    override fun apply(integer: Int): ObservableSource<String> {
+                        return Observable.just("integer=" + integer)
+                    }
+                }).subscribe { s -> Log.e("Operations", "accept=" + s + Looper.myLooper()?.thread!!.name) }
+    }
+
+    fun actionSwitchMap() {
+
+        val list = Arrays.asList(1, 2, 3, 4)
+
+        Observable.fromIterable(list)
+                .switchMap(object : Function<Int, ObservableSource<String>> {
+                    override fun apply(integer: Int): ObservableSource<String> {
+                        if(integer == 2){
+                            return   Observable.just("integer=" + integer).subscribeOn(Schedulers.newThread())
+                        }
+                        return Observable.just("integer=" + integer)
+                    }
+                }).subscribe({ s -> Log.e("Operations", "accept=" + s + Thread.currentThread()?.name) }, { t -> println(t) })
+
+
+    }
+
+    fun actionFlatMap() {
+
+        var list = listOf(1, 2, 3);
+
+        Observable.fromIterable(list)
+                .flatMap<String> { integer ->
+                    log("开始执行，第" + integer + "圆球的任务" + getThreadName())
+                    getObservable(integer)
+                }.subscribe { s -> log("已完成" + s + getThreadName()) }
+
+
+
+    }
+
+    fun getObservable(integer: Int): Observable<String> {
+        return Observable.create<String> { emitter ->
+            emitter.onNext("第" + integer + "圆球的第1个棱形任务");
+            if (integer != 1) {
+                // 第2和第3个圆球的第二个任务延时。
+                Thread.sleep(5 * 1000);
+            }
+            emitter.onNext("第" + integer + "圆球的第2个棱形任务");
+            emitter.onComplete();
+        }.subscribeOn(Schedulers.newThread())
+    }
+
+
+    // 返回当前的线程名
+    fun getThreadName(): String {
+        return "  |  ThreadName= ${Thread.currentThread()?.name}"
+    }
+
+    fun log(log: String) {
+        Log.e("FlatMap", log)
+    }
+
 
 }
