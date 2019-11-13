@@ -89,7 +89,6 @@ class MainActivity : AppCompatActivity() {
         actionSwitchMap();
     }
 
-
     fun actionSwitchMap0() {
         val list = listOf(1, 2, 3, 4)
         Observable.fromIterable(list)
@@ -100,13 +99,18 @@ class MainActivity : AppCompatActivity() {
                 }).subscribe { s -> Log.e("Operations", "accept=" + s + Looper.myLooper()?.thread!!.name) }
     }
 
+//    1 main Thread :都会发射
+//    2 main->连续new(>=1) ->main ：只有main会发射
+//    3 连续new(>=1)（new结尾） ：最后一个new发射
+
+
     fun actionSwitchMap() {
 
-        val list = listOf(1, 2, 3, 4)
+        val list = listOf(1, 2,3,4,5,6)
         Observable.fromIterable(list)
                 .switchMap(object : Function<Int, ObservableSource<String>> {
                     override fun apply(integer: Int): ObservableSource<String> {
-                        if(integer == 2){
+                        if(integer == 2 ||integer == 3){
                             return  Observable.just("integer=" + integer).subscribeOn(Schedulers.newThread())
                         }
                         return Observable.just("integer=" + integer)
@@ -115,6 +119,15 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+    // accept=integer=1main
+    // accept=integer=3main
+    // accept=integer=4main
+
+    // accept=integer=2main
+    // accept=integer=4RxNewThreadScheduler-3
+
+
+
 
     fun actionFlatMap() {
 

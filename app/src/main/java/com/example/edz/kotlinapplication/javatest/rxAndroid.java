@@ -123,10 +123,10 @@ public class rxAndroid {
 //            @Override
 //            public void run() {
 //                final Handler handler = new Handler(); // bound to this thread
-        Observable.fromArray("one", "two", "three", "four", "five")
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(/* an Observer */);
+//        Observable.fromArray("one", "two", "three", "four", "five")
+//                .subscribeOn(Schedulers.newThread())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(/* an Observer */);
 //                // perform work, ...
 //            }
 //        }, "custom-thread-1").start();
@@ -191,8 +191,8 @@ public class rxAndroid {
 
 
          Observable.just(1, 4.0, 3, 2.71, 2f, 7)
-                  // .cast(Integer.class)
-                   .ofType(Integer.class)
+                  // .cast(Integer.class) //发射前转换为该类型
+                   .ofType(Integer.class) //只发射该类型
                    .subscribe((Integer x) -> System.out.print(x+" "));
 
         Observable.create(emitter -> {
@@ -236,12 +236,12 @@ public class rxAndroid {
 //                )
 //                .blockingSubscribe(System.out::println);
 
-//        Flowable.range(1, 10)
-//                .parallel()
-//                .runOn(Schedulers.computation())
-//                .map(v -> v * v)
-//                .sequential()
-//                .blockingSubscribe(System.out::println);
+        Flowable.range(1, 10)
+                .parallel()
+                .runOn(Schedulers.computation())
+                .map(v -> v * v)
+                .sequential()
+                .blockingSubscribe(System.out::println);
 
 
     }
@@ -357,17 +357,18 @@ public class rxAndroid {
 
         //Observable.mergeDelayError()
         //merge合并数据  先发送observable2的全部数据，然后发送 observable1的全部数据
-//        Observable.merge(observable2, observable1)
-//                .subscribe(System.out::println);
+        //abc123
+        Observable.merge(observable2, observable1)
+                .subscribe(System.out::print);
+
 
         // 2、zip操作符，合并多个观察对象的数据。然后发送合并后的结果
-//        Observable.zip(observable1, observable2, new BiFunction<String, String, String>() {
-//            @Override
-//            public String apply(String s1, String s2) {
-//                return s1 + s2;
-//            }
-//        })
-//                .subscribe(System.out::println);
+        Observable.zip(observable1, observable2, new BiFunction<String, String, String>() {
+            @Override
+            public String apply(String s1, String s2) {
+                return s1 + s2;
+            }
+        }).subscribe(System.out::println);
         //zip-- 1a
         //zip-- 2b
         //zip-- 3c
@@ -386,8 +387,8 @@ public class rxAndroid {
 //        Observable.just(1, 2, 3, 4, 5)
 //                .scan(new BiFunction<Integer, Integer, Integer>() {
 //                    @Override
-//                    public Integer apply(Integer sum, Integer o2) {
-//                        return sum + o2;
+//                    public Integer apply(Integer sum, Integer itemFromIndex1) {
+//                        return sum + itemFromIndex1;
 //                    }
 //                })
 //                .subscribe(System.out::println);
@@ -398,42 +399,118 @@ public class rxAndroid {
             list.add("" + i);
         }//1 - 9
         Observable<String> observable = Observable.fromIterable(list);
+
+
+//        observable.buffer(2)  //把每两个数据为一组打成一个包，然后发送。
+//                .subscribe(new Consumer<List<String>>() {
+//                    @Override
+//                    public void accept(List<String> strings) {
+//
+//                        System.out.println("buffer11---------------"+strings.toString());
+//                        Observable.fromIterable(strings).subscribe(new Consumer<String>() {
+//                            @Override
+//                            public void accept(String s) {
+//                                System.out.println("buffer11 data --" + s);
+//                            }
+//                        });
+//                    }
+//                });
+
+//        buffer11---------------[1, 2]
+//        buffer11 data --1
+//        buffer11 data --2
+//        buffer11---------------[3, 4]
+//        buffer11 data --3
+//        buffer11 data --4
+//        buffer11---------------[5, 6]
+//        buffer11 data --5
+//        buffer11 data --6
+//        buffer11---------------[7, 8]
+//        buffer11 data --7
+//        buffer11 data --8
+//        buffer11---------------[9]
+//        buffer11 data --9
+
+
         //第1、2 个数据打成一个数据包，跳过第三个数据 ； 第4、5个数据打成一个包，跳过第6个数据
-        observable.buffer(2, 3)  //把每两个数据为一组打成一个包，然后发送。第三个数据跳过去
-                .subscribe(new Consumer<List<String>>() {
-                    @Override
-                    public void accept(List<String> strings) {
+//        observable.buffer(4, 2)  //把每两个数据为一组打成一个包，然后发送。第三个数据跳过去
+//                .subscribe(new Consumer<List<String>>() {
+//                    @Override
+//                    public void accept(List<String> strings) {
+//
+//                        System.out.println("buffer22---------------"+strings.toString());
+////                        Observable.fromIterable(strings).subscribe(new Consumer<String>() {
+////                            @Override
+////                            public void accept(String s) {
+////                                System.out.println("buffer22 data --" + s);
+////                            }
+////                        });
+//                    }
+//                });
+//        buffer22---------------[1, 2]
+//        buffer22---------------[4, 5]
+//        buffer22---------------[7, 8]
 
-                        System.out.println("buffer22---------------");
-                        Observable.fromIterable(strings).subscribe(new Consumer<String>() {
-                            @Override
-                            public void accept(String s) {
-                                System.out.println("buffer22 data --" + s);
-                            }
-                        });
-                    }
-                });
+//        Observable.range(1, 9)
+//                .buffer(2,4)
+//                .subscribe(new Consumer<List<Integer>>() {
+//                    @Override
+//                    public void accept(List<Integer> strings) throws Exception {
+//                        System.out.println("buffer----"+strings.toString());
+//                    }
+//                });
+
+//事件数量：9 ，count ： 4,skip ： 3
+//发送次数 3
+//        buffer----[1, 2, 3, 4]
+//        buffer----[4, 5, 6, 7]
+//        buffer----[7, 8, 9]
+
+//事件数量：9 ，count ：4,skip ： 2
+//发送次数 5
+//        buffer----[1, 2, 3, 4]
+//        buffer----[3, 4, 5, 6]
+//        buffer----[5, 6, 7, 8]
+//        buffer----[7, 8, 9]
+//        buffer----[9]
+
+//事件数量：9 ，count ：5,skip ： 2
+//发送次数 5
+//        buffer----[1, 2, 3, 4, 5]
+//        buffer----[3, 4, 5, 6, 7]
+//        buffer----[5, 6, 7, 8, 9]
+//        buffer----[7, 8, 9]
+//        buffer----[9]
 
 
-        Observable.interval(1, TimeUnit.SECONDS)
-                .throttleFirst(3, TimeUnit.SECONDS)
-                .subscribe(new Consumer<Long>() {
-                    @Override
-                    public void accept(Long aLong) {
-                        System.out.println("throttleFirst--" + aLong);
-                    }
-                });
+//事件数量：9 ，count ：2,skip ： 4
+//发送次数 3
+//        buffer----[1, 2]
+//        buffer----[5, 6]
+//        buffer----[9]
 
 
-        Observable
-                .just("123")
-                .compose(RxUtil.compose())
-                .subscribe(new Consumer<String>() {
-                    @Override
-                    public void accept(String s) {
-                        System.out.println(s);
-                    }
-                });
+//        Observable.interval(1, TimeUnit.SECONDS)
+//                .throttleFirst(3, TimeUnit.SECONDS)
+//                .subscribe(new Consumer<Long>() {
+//                    @Override
+//                    public void accept(Long aLong) {
+//                        System.out.println("throttleFirst--" + aLong);
+//                    }
+//                });
+
+
+//        Observable
+//                .just("123")
+//                .compose(RxUtil.compose())
+//                .subscribe(new Consumer<String>() {
+//                    @Override
+//                    public void accept(String s) {
+//                        System.out.println(s);
+//                    }
+//                });
+
+
     }
 
     public static void actionFlatMapIterable() {
