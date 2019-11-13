@@ -10,11 +10,10 @@ import com.example.edz.kotlinapplication.apiservice.ApiResponse
 import com.example.edz.kotlinapplication.apiservice.RequestCallback
 import com.example.edz.kotlinapplication.data.CalentarDayBean
 import com.example.edz.kotlinapplication.data.ReposUser
-import com.example.edz.kotlinapplication.service.NetworkScheduler
-import com.example.edz.kotlinapplication.service.NetworkScheduler.compose
 import com.example.edz.kotlinapplication.service.Service
 import com.example.edz.kotlinapplication.service.User
 import com.example.edz.kotlinapplication.service.api
+import com.example.edz.kotlinapplication.service.compose
 import com.example.edz.kotlinapplication.util.OkHttpUtil
 import com.trello.rxlifecycle3.android.ActivityEvent
 import com.trello.rxlifecycle3.kotlin.bindUntilEvent
@@ -82,7 +81,7 @@ class RetrofitRxKotlinActivity : RxAppCompatActivity() {
         var file = File("/")
         Service.gitHubService.updateImage(OkHttpUtil.createTextRequestBody("Bob"),
                 OkHttpUtil.createPartWithAllImageFormats("avatar",file))   //此处调用OkHttpUtil中的方法
-                .compose(NetworkScheduler.compose())
+                .compose(compose())
                 .bindUntilEvent(this, ActivityEvent.DESTROY)
                 .subscribe(object : ApiResponse<User>(this) {
                     override fun success(data: User) {

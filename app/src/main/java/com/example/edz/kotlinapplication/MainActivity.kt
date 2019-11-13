@@ -85,11 +85,12 @@ class MainActivity : AppCompatActivity() {
         toast("skipNextRetrofitKotlin")
         //actionFlatMap();
 
-        //operate();
+        //actionSwitchMap0();
         actionSwitchMap();
     }
 
-    fun operate() {
+
+    fun actionSwitchMap0() {
         val list = listOf(1, 2, 3, 4)
         Observable.fromIterable(list)
                 .switchMap(object : Function<Int, ObservableSource<String>> {
@@ -101,17 +102,16 @@ class MainActivity : AppCompatActivity() {
 
     fun actionSwitchMap() {
 
-        val list = Arrays.asList(1, 2, 3, 4)
-
+        val list = listOf(1, 2, 3, 4)
         Observable.fromIterable(list)
                 .switchMap(object : Function<Int, ObservableSource<String>> {
                     override fun apply(integer: Int): ObservableSource<String> {
                         if(integer == 2){
-                            return   Observable.just("integer=" + integer).subscribeOn(Schedulers.newThread())
+                            return  Observable.just("integer=" + integer).subscribeOn(Schedulers.newThread())
                         }
                         return Observable.just("integer=" + integer)
                     }
-                }).subscribe({ s -> Log.e("Operations", "accept=" + s + Thread.currentThread()?.name) }, { t -> println(t) })
+                }).subscribe({ num -> Log.e("Operations", "accept=" + num + Thread.currentThread()?.name) }, { t -> println(t) })
 
 
     }

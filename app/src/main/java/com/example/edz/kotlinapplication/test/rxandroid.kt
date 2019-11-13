@@ -2,6 +2,7 @@ package com.example.edz.kotlinapplication.test
 
 import io.reactivex.Flowable
 import io.reactivex.Observable
+import io.reactivex.ObservableSource
 import io.reactivex.functions.Consumer
 import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
@@ -15,7 +16,7 @@ import java.util.*
  */
 fun main(args: Array<String>) {
 //    Flowable.just("Hello world").subscribe(::println)
-//
+//      Flowable.just("Ios","Android").subscribe(::println)
 //    Flowable.range(1, 10)
 //            .observeOn(Schedulers.computation())
 //            .map { v -> v * v }
@@ -27,8 +28,15 @@ fun main(args: Array<String>) {
 //              .ofType(Int::class.java)
 //              .subscribe { x: Int -> println(x.toString() + " ") }
 
+//    Observable.create<String> { emitter ->
+//        emitter.onNext("0")
+//        emitter.onNext("1")
+//        emitter.onNext("2")
+//        emitter.onComplete()
+//    }.subscribe ({ println("numIndex=$it") }, { t -> println(t) })
+       //     .subscribe(::println, Throwable::printStackTrace)
 
-//    Observable.create<Any> { emitter ->
+//    Observable.create<Long> { emitter ->
 //        while (!emitter.isDisposed) {
 //            val time = System.currentTimeMillis()
 //            emitter.onNext(time)
@@ -37,8 +45,7 @@ fun main(args: Array<String>) {
 //                break
 //            }
 //        }
-//    }
-//            .subscribe(Consumer<Any> { println(it) }, Consumer<Throwable> { it.printStackTrace() })
+//    }.subscribe(Consumer<Long> { println(it) }, Consumer<Throwable> { it.printStackTrace() })
 
 //    Flowable.fromCallable {
 //        Thread.sleep(1000) //  imitate expensive computation
@@ -54,7 +61,8 @@ fun main(args: Array<String>) {
 //    Flowable.range(1, 10)
 //            .flatMap { v ->
 //                Flowable.just(v)
-//                        .subscribeOn(Schedulers.computation())
+//                        .subscribeOn(Schedulers.io())
+//                        .observeOn(Schedulers.computation())
 //                        .map { w -> w * w }
 //            }
 //            .blockingSubscribe (::println)
@@ -66,13 +74,38 @@ fun main(args: Array<String>) {
 }
 
 fun actionFlatMapIterable() {
-    val list = Arrays.asList(1, 2, 3)
+    val list = Arrays.asList(1, 2, 3, 4)
+
+    Observable.fromIterable(list)
+            .flatMap<String> { num ->
+               Observable.just(num)
+                       .map { v->v.toString() }
+            }
+            .subscribe { s -> println("flatMap accept=$s") }
+//    flatMap accept=1
+//    flatMap accept=2
+//    flatMap accept=3
+//    flatMap accept=4
+
 
     Observable.fromIterable(list)
             .flatMapIterable(object : Function<Int, Iterable<String>> {
-                @Throws(Exception::class)
                 override fun apply(integer: Int): Iterable<String> {
-                    return Arrays.asList("a" + integer!!, "b$integer", "c$integer")
+                    return listOf("a" + integer, "b$integer", "c$integer")
                 }
             }).subscribe { s -> println("accept=$s") }
+
+//    accept=a1
+//    accept=b1
+//    accept=c1
+//    accept=a2
+//    accept=b2
+//    accept=c2
+//    accept=a3
+//    accept=b3
+//    accept=c3
+//    accept=a4
+//    accept=b4
+//    accept=c4
+
 }

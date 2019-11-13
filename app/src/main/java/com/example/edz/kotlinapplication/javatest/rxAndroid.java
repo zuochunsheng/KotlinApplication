@@ -123,10 +123,10 @@ public class rxAndroid {
 //            @Override
 //            public void run() {
 //                final Handler handler = new Handler(); // bound to this thread
-//                Observable.fromArray("one", "two", "three", "four", "five")
-//                        .subscribeOn(Schedulers.newThread())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribe(/* an Observer */);
+        Observable.fromArray("one", "two", "three", "four", "five")
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(/* an Observer */);
 //                // perform work, ...
 //            }
 //        }, "custom-thread-1").start();
@@ -175,24 +175,33 @@ public class rxAndroid {
 
     public static void print() {
 //        Flowable.just("Hello world").subscribe(System.out::println);
-//          Flowable.just("Hello world").subscribe(new Consumer<String>() {
-//              @Override
-//              public void accept(String s) throws Exception {
-//                  System.out.println(s);
-//              }
-//          });
-//
-//        Flowable.range(1, 10)
-//                .observeOn(Schedulers.computation())
-//                .map(v -> v * v)
-//                .filter(v -> v % 3 == 0)
-//                .blockingSubscribe(System.out::println);
-//
-//
-//         Observable.just(1, 4.0, 3, 2.71, 2f, 7)
-//                   .ofType(Integer.class)
-//                   .subscribe((Integer x) -> System.out.print(x+" "));
+//        Flowable.just("Ios","Android").subscribe(System.out::println);
+//        Flowable.just("Hello world").subscribe(new Consumer<String>() {
+//            @Override
+//            public void accept(String s) throws Exception {
+//                System.out.println(s);
+//            }
+//        });
 
+        Flowable.range(1, 10)
+                .observeOn(Schedulers.computation())
+                .map(v -> v * v)
+                .filter(v -> v % 3 == 0)
+                .blockingSubscribe(System.out::println);
+
+
+         Observable.just(1, 4.0, 3, 2.71, 2f, 7)
+                  // .cast(Integer.class)
+                   .ofType(Integer.class)
+                   .subscribe((Integer x) -> System.out.print(x+" "));
+
+        Observable.create(emitter -> {
+                    emitter.onNext("0");
+                    emitter.onNext("1");
+                    emitter.onNext("2");
+                    emitter.onComplete();
+                }
+        ).subscribe(System.out::println, Throwable::printStackTrace);
 
 //        Observable.create(emitter -> {
 //            while (!emitter.isDisposed()) {
@@ -203,8 +212,7 @@ public class rxAndroid {
 //                    break;
 //                }
 //            }
-//        })
-//        .subscribe(System.out::println, Throwable::printStackTrace);
+//        }).subscribe(System.out::println, Throwable::printStackTrace);
 
 //        Flowable.fromCallable(() -> {
 //            Thread.sleep(1000); //  imitate expensive computation
