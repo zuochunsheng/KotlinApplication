@@ -1,13 +1,16 @@
 package com.example.edz.kotlinapplication.test
 
-import io.reactivex.Flowable
+import io.reactivex.*
 import io.reactivex.Observable
-import io.reactivex.ObservableSource
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
+import io.reactivex.functions.Action
 import io.reactivex.functions.Consumer
 import io.reactivex.functions.Function
 import io.reactivex.observables.GroupedObservable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 /**
@@ -37,16 +40,19 @@ fun main(args: Array<String>) {
 //    }.subscribe ({ println("numIndex=$it") }, { t -> println(t) })
     //     .subscribe(::println, Throwable::printStackTrace)
 
-//    Observable.create<Long> { emitter ->
-//        while (!emitter.isDisposed) {
-//            val time = System.currentTimeMillis()
-//            emitter.onNext(time)
-//            if (time % 2 != 0L) {
-//                emitter.onError(IllegalStateException("Odd millisecond!"))
-//                break
-//            }
-//        }
-//    }.subscribe(Consumer<Long> { println(it) }, Consumer<Throwable> { it.printStackTrace() })
+    Observable.create<Long> { emitter ->
+        while (!emitter.isDisposed) {
+            val time = System.currentTimeMillis()
+            emitter.onNext(time)
+            if (time % 2 != 0L) {
+                emitter.onError(IllegalStateException("Odd millisecond!"))
+                break
+            }
+        }
+    }.subscribe(Consumer<Long> { println(it) },
+            Consumer<Throwable> { it.printStackTrace() },
+            Action{ println("complete")}
+    )
 
 //    Flowable.fromCallable {
 //        Thread.sleep(1000) //  imitate expensive computation
@@ -121,5 +127,36 @@ private fun testGroupBy() {
                     println("key:" + result.key + ", value:" + value)
                 }
             }
+
+}
+
+fun testFilter() {
+
+    Observable.create(ObservableOnSubscribe<Int> { emitter ->
+        //产生结果的间隔时间分别为100、200、300...900毫秒
+        for (i in 1..9) {
+            emitter.onNext(i)
+            Thread.sleep((i * 100).toLong())
+        }
+        emitter.onComplete()
+    }).subscribeOn(Schedulers.newThread())
+            .debounce(400, TimeUnit.MILLISECONDS)  //超时时间为400毫秒
+            .subscribe(object : Observer<Int> {
+                override fun onSubscribe(d: Disposable) {
+
+                }
+
+                override fun onNext(integer: Int) {
+                    println("Next:" + integer)
+                }
+
+                override fun onError(e: Throwable) {
+                    println("Error:" + e.message)
+                }
+
+                override fun onComplete() {
+                    println("completed!")
+                }
+            })
 
 }

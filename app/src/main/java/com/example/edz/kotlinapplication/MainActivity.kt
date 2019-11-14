@@ -115,7 +115,11 @@ class MainActivity : AppCompatActivity() {
                         }
                         return Observable.just("integer=" + integer)
                     }
-                }).subscribe({ num -> Log.e("Operations", "accept=" + num + Thread.currentThread()?.name) }, { t -> println(t) })
+                }).subscribe(
+                        { num -> Log.e("Operations", "accept=" + num + Thread.currentThread()?.name) },
+                        { t -> println(t) },
+                        { println("complete")}
+                )
 
 
     }
@@ -151,7 +155,7 @@ class MainActivity : AppCompatActivity() {
                 Thread.sleep(5 * 1000);
             }
             emitter.onNext("第" + integer + "圆球的第2个棱形任务");
-            emitter.onComplete();
+            emitter.onComplete()
         }.subscribeOn(Schedulers.newThread())
     }
 

@@ -23,10 +23,13 @@ import io.reactivex.ObservableTransformer;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+
+import static io.reactivex.internal.operators.observable.ObservableBlockingSubscribe.subscribe;
 
 /**
  * @author： zcs
@@ -190,10 +193,10 @@ public class rxAndroid {
                 .blockingSubscribe(System.out::println);
 
 
-         Observable.just(1, 4.0, 3, 2.71, 2f, 7)
-                  // .cast(Integer.class) //发射前转换为该类型
-                   .ofType(Integer.class) //只发射该类型
-                   .subscribe((Integer x) -> System.out.print(x+" "));
+        Observable.just(1, 4.0, 3, 2.71, 2f, 7)
+                // .cast(Integer.class) //发射前转换为该类型
+                .ofType(Integer.class) //只发射该类型
+                .subscribe((Integer x) -> System.out.print(x + " "));
 
         Observable.create(emitter -> {
                     emitter.onNext("0");
@@ -201,7 +204,10 @@ public class rxAndroid {
                     emitter.onNext("2");
                     emitter.onComplete();
                 }
-        ).subscribe(System.out::println, Throwable::printStackTrace);
+        ).subscribe(System.out::println,
+                Throwable::printStackTrace,
+                () -> System.out.print("complete")
+        );
 
 //        Observable.create(emitter -> {
 //            while (!emitter.isDisposed()) {
@@ -358,30 +364,92 @@ public class rxAndroid {
         //Observable.mergeDelayError()
         //merge合并数据  先发送observable2的全部数据，然后发送 observable1的全部数据
         //abc123
-        Observable.merge(observable2, observable1)
-                .subscribe(System.out::print);
+//        Observable.merge(observable2, observable1)
+//                .subscribe(System.out::print);
+//        //同上
+//        observable2.mergeWith(observable1)
+//                .subscribe(System.out::print);
 
 
         // 2、zip操作符，合并多个观察对象的数据。然后发送合并后的结果
-        Observable.zip(observable1, observable2, new BiFunction<String, String, String>() {
-            @Override
-            public String apply(String s1, String s2) {
-                return s1 + s2;
-            }
-        }).subscribe(System.out::println);
+//        Observable.zip(observable1, observable2, new BiFunction<String, String, String>() {
+//            @Override
+//            public String apply(String s1, String s2) {
+//                return s1 + s2;
+//            }
+//        }).subscribe(System.out::println);
         //zip-- 1a
         //zip-- 2b
         //zip-- 3c
 
-        Observable.combineLatest(observable1, observable2, new BiFunction<String, String, String>() {
-            @Override
-            public String apply(String s1, String s2) {
-                return s1 + s2;
-            }
-        }).subscribe(System.out::println);
+//        Observable.combineLatest(observable1, observable2, new BiFunction<String, String, String>() {
+//            @Override
+//            public String apply(String s1, String s2) {
+//                return s1 + s2;
+//            }
+//        }).subscribe(System.out::println);
         //3a
         //3b
         //3c
+
+
+        //输出[0,1,2,3]序列
+//        Observable<Integer> ob = Observable.create(subscriber -> {
+//            for (int i = 0; i < 4; i++) {
+//                subscriber.onNext(i);
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+
+        Observable.just("a", "b")
+                .join(Observable.create(emitter -> {
+                            for (int i = 0; i < 4; i++) {
+                                System.out.println("onNext:-------" + i);
+                                emitter.onNext(i);
+                                Thread.sleep(1000);
+                            }
+
+                        }),
+                        s -> {
+                            System.out.println("left:----" + s);//a,b
+                            //使Observable延迟3000毫秒执行
+                            return Observable.timer(3000, TimeUnit.MILLISECONDS);
+                        },
+                        integer -> {
+                            //[0,1,2,3]序列
+                            System.out.println("right:---" + integer);
+                            //使Observable延迟2000毫秒执行
+                            return Observable.timer(2000, TimeUnit.MILLISECONDS);
+                        },
+                        //结合上面发射的数据
+                        (s, integer) -> s +  integer
+
+                ).subscribe(o -> System.out.println("join===========" + o));
+
+//        Observable.just("a", "b")
+//                //.groupJoin()
+//                .join(ob, s -> {
+//                            System.out.println("left:-------" + s);//a,b
+//                            //使Observable延迟3000毫秒执行
+//                            return Observable.timer(3000, TimeUnit.MILLISECONDS);
+//                        },
+//                        integer -> {
+//                            //[0,1,2,3]序列
+//                            System.out.println("right:-------" + integer);
+//                            //使Observable延迟2000毫秒执行
+//                            return Observable.timer(2000, TimeUnit.MILLISECONDS);
+//                        },
+//                        //结合上面发射的数据
+//                        (s, integer) -> s + "-" + integer)
+//                .subscribe(o -> System.out.println("accept===========" + o));
+
+
+        //原文链接：https://blog.csdn.net/hjjdehao/article/details/73322592
+
 
         //3、scan累加器操作符的使用
 //        Observable.just(1, 2, 3, 4, 5)
@@ -394,11 +462,11 @@ public class rxAndroid {
 //                .subscribe(System.out::println);
 
 
-        List<String> list = new ArrayList<>();
-        for (int i = 1; i < 10; i++) {
-            list.add("" + i);
-        }//1 - 9
-        Observable<String> observable = Observable.fromIterable(list);
+//        List<String> list = new ArrayList<>();
+//        for (int i = 1; i < 10; i++) {
+//            list.add("" + i);
+//        }//1 - 9
+//        Observable<String> observable = Observable.fromIterable(list);
 
 
 //        observable.buffer(2)  //把每两个数据为一组打成一个包，然后发送。
@@ -490,14 +558,14 @@ public class rxAndroid {
 //        buffer----[9]
 
 
-//        Observable.interval(1, TimeUnit.SECONDS)
-//                .throttleFirst(3, TimeUnit.SECONDS)
-//                .subscribe(new Consumer<Long>() {
-//                    @Override
-//                    public void accept(Long aLong) {
-//                        System.out.println("throttleFirst--" + aLong);
-//                    }
-//                });
+        Observable.interval(1, TimeUnit.SECONDS)
+                .throttleFirst(3, TimeUnit.SECONDS)
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) {
+                        System.out.println("throttleFirst--" + aLong);
+                    }
+                });
 
 
 //        Observable
