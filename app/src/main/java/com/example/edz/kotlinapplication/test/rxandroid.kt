@@ -5,6 +5,7 @@ import io.reactivex.Observable
 import io.reactivex.ObservableSource
 import io.reactivex.functions.Consumer
 import io.reactivex.functions.Function
+import io.reactivex.observables.GroupedObservable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 
@@ -34,7 +35,7 @@ fun main(args: Array<String>) {
 //        emitter.onNext("2")
 //        emitter.onComplete()
 //    }.subscribe ({ println("numIndex=$it") }, { t -> println(t) })
-       //     .subscribe(::println, Throwable::printStackTrace)
+    //     .subscribe(::println, Throwable::printStackTrace)
 
 //    Observable.create<Long> { emitter ->
 //        while (!emitter.isDisposed) {
@@ -71,7 +72,6 @@ fun main(args: Array<String>) {
     actionFlatMapIterable()
 
 
-
 }
 
 fun actionFlatMapIterable() {
@@ -79,8 +79,8 @@ fun actionFlatMapIterable() {
 
     Observable.fromIterable(list)
             .flatMap<String> { num ->
-               Observable.just(num)
-                       .map { v->v.toString() }
+                Observable.just(num)
+                        .map { v -> v.toString() }
             }
             .subscribe { s -> println("flatMap accept=$s") }
 //    flatMap accept=1
@@ -108,5 +108,18 @@ fun actionFlatMapIterable() {
 //    accept=a4
 //    accept=b4
 //    accept=c4
+
+}
+
+private fun testGroupBy() {
+    //Observable.interval(1, TimeUnit.SECONDS)
+    //.take(10)
+    Observable.range(1, 10)
+            .groupBy{ integer-> integer % 3}
+            .subscribe { result ->
+                result.subscribe { value ->
+                    println("key:" + result.key + ", value:" + value)
+                }
+            }
 
 }

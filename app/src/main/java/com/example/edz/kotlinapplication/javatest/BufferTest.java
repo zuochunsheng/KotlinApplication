@@ -12,7 +12,7 @@ import io.reactivex.functions.Consumer;
 /**
  * @author： zcs
  * @time：2019/11/13 on 19:03
- * @description：
+ * @description：https://www.liangzl.com/get-article-detail-10998.html
  */
 public class BufferTest {
 
@@ -105,15 +105,15 @@ public class BufferTest {
 //
 //
 //        //缓冲区在时间窗口末尾时会发出
-        Observable.interval(100, TimeUnit.MILLISECONDS)
-                .take(10)
-                .buffer(250, TimeUnit.MILLISECONDS)
-                .subscribe(new Consumer<List<Long>>() {
-                    @Override
-                    public void accept(List<Long> longs) throws Exception {
-
-                    }
-                });
+//        Observable.interval(100, TimeUnit.MILLISECONDS)
+//                .take(10)
+//                .buffer(250, TimeUnit.MILLISECONDS)
+//                .subscribe(new Consumer<List<Long>>() {
+//                    @Override
+//                    public void accept(List<Long> longs) throws Exception {
+//
+//                    }
+//                });
 //        //等同上
 //        Observable.interval(100, TimeUnit.MILLISECONDS)
 //                .take(10)
@@ -128,7 +128,7 @@ public class BufferTest {
 //
 //
 //        //类似于buffer(count,skip)
-//        //每200 ms创建一个新的缓冲区，每个缓冲区会发射接下来350 ms时间内的数据
+//        //每200 ms创建一个新的缓冲区，每个缓冲区会发射接下来350 ms时间内的数据,（缓冲区重叠）
         Observable.interval(100, TimeUnit.MILLISECONDS)
                 .take(10)
                 .buffer(350, 200, TimeUnit.MILLISECONDS)
