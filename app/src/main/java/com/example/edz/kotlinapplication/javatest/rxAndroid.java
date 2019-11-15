@@ -558,6 +558,9 @@ public class rxAndroid {
 //        buffer----[9]
 
 
+//        在一段时间内，只取第一个事件，然后其他事件都丢弃。
+//        使用场景：1、button按钮防抖操作，防连续点击
+//                 2、百度关键词联想，在一段时间内只联想一次，防止频繁请求服务器
         Observable.interval(1, TimeUnit.SECONDS)
                 .throttleFirst(3, TimeUnit.SECONDS)
                 .subscribe(new Consumer<Long>() {

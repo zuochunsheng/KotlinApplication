@@ -118,7 +118,7 @@ class MainActivity : AppCompatActivity() {
                 }).subscribe(
                         { num -> Log.e("Operations", "accept=" + num + Thread.currentThread()?.name) },
                         { t -> println(t) },
-                        { println("complete")}
+                        {  println("complete")}
                 )
 
 

@@ -88,7 +88,7 @@ fun actionFlatMapIterable() {
                 Observable.just(num)
                         .map { v -> v.toString() }
             }
-            .subscribe { s -> println("flatMap accept=$s") }
+            .subscribe { s -> println("flatMap accept=$s")  }
 //    flatMap accept=1
 //    flatMap accept=2
 //    flatMap accept=3
