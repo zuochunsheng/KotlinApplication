@@ -97,33 +97,6 @@ public class FilterTest {
 //    Next:9
 //    completed!
 
-//        Observable.just(1)
-////                .single(20)
-////                //.singleOrError()
-////                .subscribe(new Consumer<Object>() {
-////
-////                    @Override
-////                    public void accept(Object o) throws Exception {
-////                        System.out.println("accept: " + o);
-////                    }
-////                });
-
-//                .subscribe(new SingleObserver<Integer>() {
-//                    @Override
-//                    public void onSubscribe(Disposable d) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onSuccess(Integer integer) {
-//                        System.out.println("Next: " + integer);
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        System.err.println("Error: " + e.getMessage());
-//                    }
-//                });
 
 
 
