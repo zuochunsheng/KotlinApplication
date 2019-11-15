@@ -7,6 +7,8 @@ package com.example.edz.kotlinapplication.javatest;
  */
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.functions.Predicate;
@@ -29,12 +31,26 @@ import io.reactivex.functions.Predicate;
 //exists( ) and isEmpty( ) — 判断Observable是否发射了一个值
 //sequenceEqual( ) — 判断两个Observables发射的序列是否相等
 
+// 9 算术操作
+//average — 求序列平均数并发射
+//sum( ) — 求和并发射
+
+//max( ) — 求序列最大值并发射
+//maxBy( ) — 求最大key对应的值并发射
+//min( ) — 求最小值并发射
+//minBy( ) — 求最小Key对应的值并发射
+
+// 聚合操作
+//concat( ) — 顺序连接多个Observables
+//count( ) and countLong( ) — 计算数据项的个数并发射结果
+//reduce( ) — 对序列使用reduce()函数并发射最终的结果
+//collect( ) — 将原始Observable发射的数据放到一个单一的可变的数据结构中，然后返回一个发射这个数据结构的Observable
+
 public class ConditionsTest {
 
     public static void main(String... args) {
-        test();
-        //testDo();
-        // testSingle();
+        //test();
+        mathTest();
 
         try {
             System.in.read();
@@ -90,6 +106,24 @@ public class ConditionsTest {
 //                    }
 //                })
                 // .skipUntil(range)
+
+                .subscribe(x -> System.out.println("next = " + x),
+                        error -> System.out.println("error =" + error),
+                        () -> System.out.println("complete")
+                );
+    }
+
+
+    private static void mathTest() {
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+
+        Observable.fromIterable(list)
+                //.count()
+                //.reduce()
+                //.collect()
 
                 .subscribe(x -> System.out.println("next = " + x),
                         error -> System.out.println("error =" + error),
