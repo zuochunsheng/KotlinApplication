@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.functions.Predicate;
 
 //7 条件操作符
@@ -49,8 +51,8 @@ import io.reactivex.functions.Predicate;
 public class ConditionsTest {
 
     public static void main(String... args) {
-        //test();
-        mathTest();
+        test();
+        //mathTest();
 
         try {
             System.in.read();
@@ -60,22 +62,38 @@ public class ConditionsTest {
     }
 
     private static void test() {
-        Observable<String> observable = Observable.just("1", "2", "3", "4", "5", "6", "7", "8");
-        Observable<String> observable2 = Observable.just("a", "b", "c", "d", "e", "f");
-        Observable<Integer> range = Observable.range(11, 9);
 
-        //        Observable.create(emitter ->
-//                    {
-//                        //产生结果的间隔时间分别为100、200、300...900毫秒
-//                        for (int i = 1; i < 10; i++) {
-//                            emitter.onNext(i);
-//                            Thread.sleep(i * 100);
-//                        }
-//                        emitter.onComplete();
-//                    }
-//                )
 
-        Observable.range(1, 9)
+        Observable observable1 = Observable.create(emitter ->
+                {
+                    //产生结果的间隔时间分别为300毫秒
+                    for (int i = 61; i < 71; i++) {
+                        Thread.sleep(300);
+                        System.out.println(" ---->发射: " + i);
+                        emitter.onNext(i);
+
+                    }
+                    emitter.onComplete();
+                }
+        );
+
+        Observable observable2 =   Observable.create(new ObservableOnSubscribe<String>() {
+
+            @Override
+            public void subscribe(ObservableEmitter<String> emitter) throws Exception {
+                for (int i = 1; i < 31; i++) {
+
+                    Thread.sleep(100L);
+                    System.out.println("---->发射: " + i);
+                    emitter.onNext("===>" + i);
+                }
+                emitter.onComplete();
+            }
+        });
+
+        observable2
+
+                //       Observable.range(1, 9)
                 //.ambWith(observable2)
                 //.defaultIfEmpty("xx")
 
@@ -94,7 +112,8 @@ public class ConditionsTest {
 //                        return integer.intValue() > 5;
 //                    }
 //                })
-//                 .takeUntil(range)
+
+                 .takeUntil(observable1)
 
 //                .skipWhile(new Predicate<Integer>() {
 //                    @Override
@@ -105,12 +124,14 @@ public class ConditionsTest {
 //                        return integer.intValue() < 5;
 //                    }
 //                })
-                // .skipUntil(range)
+                 //.skipUntil(observable2)
 
                 .subscribe(x -> System.out.println("next = " + x),
                         error -> System.out.println("error =" + error),
                         () -> System.out.println("complete")
                 );
+
+
     }
 
 
