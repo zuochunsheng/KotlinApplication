@@ -25,10 +25,35 @@ android {
         targetCompatibility 1.8
     }
 
+    signingConfigs {
+        debug {
+            keyAlias 'huicanpay'
+            keyPassword 'huican20170301'
+            storeFile file('../PayKey_Debug.jks')
+            storePassword 'huican20170301'
+        }
+        relese {
+            keyAlias 'huicanpay'
+            keyPassword 'huican20161026'
+            storeFile file('../PayKey.jks')
+            storePassword 'huican20161026'
+        }
+    }
+
+
+
     buildTypes {
+        debug {
+            minifyEnabled false  //是否进行混淆
+//            zipAlignEnabled true // 是否支持zip
+//            shrinkResources false // 移除无用资源
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.relese
         }
     }
 }
@@ -72,4 +97,6 @@ dependencies {
 
     implementation 'androidx.multidex:multidex:2.0.0'
     implementation 'androidx.multidex:multidex-instrumentation:2.0.0'
+
+    implementation project(':flutter')
 }

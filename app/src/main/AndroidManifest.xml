@@ -28,6 +28,8 @@
         </activity>
         <activity android:name=".CoroutinesActivity"></activity>
         <activity android:name=".RetrofitRxKotlinActivity"></activity>
+        <activity android:name=".MyFlutterActivity"
+            android:theme="@style/FlutterPageTheme" />
     </application>
 
 </manifest>

@@ -3,6 +3,7 @@ package com.example.edz.kotlinapplication
 import com.example.edz.kotlinapplication.R
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
@@ -80,14 +81,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun skipNextRetrofitKotlin(view: View) {
-//        val intent = Intent(this, RetrofitRxKotlinActivity::class.java)
-//        startActivity(intent)
+
         toast("skipNextRetrofitKotlin")
         //actionFlatMap();
 
         //actionSwitchMap0();
         actionSwitchMap();
+
+        val intent = Intent(this, RetrofitRxKotlinActivity::class.java)
+        startActivity(intent)
     }
+    //flutter
+    fun skipFlutter(view: View) {
+
+        toast("skipFlutter")
+
+        val intent = Intent(this, MyFlutterActivity::class.java)
+        startActivity(intent)
+    }
+
 
     fun actionSwitchMap0() {
         val list = listOf(1, 2, 3, 4)
@@ -96,7 +108,10 @@ class MainActivity : AppCompatActivity() {
                     override fun apply(integer: Int): ObservableSource<String> {
                         return Observable.just("integer=" + integer)
                     }
-                }).subscribe { s -> Log.e("Operations", "accept=" + s + Looper.myLooper()?.thread!!.name) }
+                }).subscribe { s -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
+                    Log.e("Operations", "accept=" + s + Looper.myLooper()?.thread!!.name)
+                }
+                }
     }
 
 //    1 main Thread :都会发射

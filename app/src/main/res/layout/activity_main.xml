@@ -42,4 +42,10 @@
         android:text="跳转-RetrofitKotlin"
         android:layout_width="200dp"
         android:layout_height="50dp" />
+
+    <Button
+        android:onClick="skipFlutter"
+        android:text="跳转-flutter"
+        android:layout_width="200dp"
+        android:layout_height="50dp" />
 </LinearLayout>
