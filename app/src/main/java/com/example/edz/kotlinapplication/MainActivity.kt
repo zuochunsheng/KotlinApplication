@@ -97,6 +97,7 @@ class MainActivity : AppCompatActivity() {
         toast("skipFlutter")
 
         val intent = Intent(this, MyFlutterActivity::class.java)
+        intent.putExtra("name", "etName.getText");
         startActivity(intent)
     }
 
