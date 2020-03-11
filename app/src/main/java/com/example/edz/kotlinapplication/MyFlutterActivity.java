@@ -4,12 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.edz.kotlinapplication.androidchannel.MyFlutterFragment;
 import com.example.edz.kotlinapplication.androidchannel.NativePageActivity;
 
 import java.util.HashMap;
@@ -27,6 +27,7 @@ import io.flutter.embedding.android.FlutterView;
 public class MyFlutterActivity extends AppCompatActivity {
     private FlutterEngine flutterEngine;
 
+    // 定义Channel名称
     private static final String CHANNEL_NATIVE = "com.example.flutter/native";
     private static final String CHANNEL_FLUTTER = "com.example.flutter/flutter";
 
@@ -35,30 +36,12 @@ public class MyFlutterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-       setContentView(R.layout.activity_flutter);
-//        // 通过FlutterFragment引入Flutter编写的页面
-//        FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
-//        tx.replace(R.id.fl_container, Flutter.createFragment("route1"));
-//        tx.commit();
+        setContentView(R.layout.activity_flutter);
 
-
-        // 通过FlutterView引入Flutter编写的页面
-//        View flutterView = Flutter.createView(this, getLifecycle(), "route1");
-//        View flutterView = Flutter.createView(this, getLifecycle(),
-//                "route1?{\"name\":\"StephenCurry\"}");
-
-//        FrameLayout.LayoutParams layout = new FrameLayout.LayoutParams(
-//                ViewGroup.LayoutParams.MATCH_PARENT,
-//                ViewGroup.LayoutParams.MATCH_PARENT);
-//        addContentView(flutterView, layout);
-
-
-
-        //2
         // 创建FlutterEngine对象
         flutterEngine = createFlutterEngine();
 
-        // 通过FlutterView引入Flutter编写的页面
+        //1  通过FlutterView引入Flutter编写的页面
 //        FlutterView flutterView = new FlutterView(this);
 //        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
 //                ViewGroup.LayoutParams.MATCH_PARENT,
@@ -67,23 +50,46 @@ public class MyFlutterActivity extends AppCompatActivity {
 ////        lp.topMargin = 200;
 //        FrameLayout flContainer = findViewById(R.id.fl_container);
 //        flContainer.addView(flutterView, lp);
+//        //关键代码，将Flutter页面显示到FlutterView中
 //        flutterView.attachToFlutterEngine(flutterEngine);
 
-        // 通过FlutterFragment引入Flutter编写的页面
+
+
+          // 通过FlutterFragment引入Flutter编写的页面
+          //官方提供了三种创建FlutterFragment的方式
+          //方式 1
 //        FlutterFragment flutterFragment = FlutterFragment.createDefault();
+          //方式 2
 //        FlutterFragment flutterFragment = FlutterFragment.withNewEngine()
 //                .initialRoute("route1?{\"name\":\"" + getIntent().getStringExtra("name") + "\"}")
 //                .build();
+
+        //方式 3
+        // 创建可缓存的FlutterEngine对象
+//        FlutterEngine flutterEngine = new FlutterEngine(this);
+//        flutterEngine.getNavigationChannel().setInitialRoute("route1");
+//        flutterEngine.getDartExecutor().executeDartEntrypoint(
+//                DartExecutor.DartEntrypoint.createDefault()
+//        );
+//        FlutterEngineCache.getInstance().put("my_engine_id", flutterEngine);
         FlutterFragment flutterFragment = FlutterFragment.withCachedEngine("my_engine_id")
                 .build();
+
 //        MyFlutterFragment flutterFragment = MyFlutterFragment.newInstance("route1?{\"name\":\"" + getIntent().getStringExtra("name") + "\"}",
 //                flutterEngine);
+
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.fl_container, flutterFragment)
                 .commit();
 
         MethodChannel nativeChannel = new MethodChannel(flutterEngine.getDartExecutor(), CHANNEL_NATIVE);
+        // 或
+        //MethodChannel nativeChannel = new MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), CHANNEL_NATIVE);
+
+//        nativeChannel.setMethodCallHandler(new MethodChannel.MethodCallHandler() {
+//            @Override
+//            public void onMethodCall(MethodCall methodCall, MethodChannel.Result result) {
         nativeChannel.setMethodCallHandler((methodCall, result) -> {
             switch (methodCall.method) {
                 case "goBack":
@@ -101,7 +107,9 @@ public class MyFlutterActivity extends AppCompatActivity {
                     // 跳转原生页面
                     Intent jumpToNativeIntent = new Intent(this, NativePageActivity.class);
                     jumpToNativeIntent.putExtra("name", (String) methodCall.argument("name"));
+                    //startActivity(jumpToNativeIntent);
                     startActivityForResult(jumpToNativeIntent, 0);
+
                     break;
                 default:
                     result.notImplemented();
@@ -121,7 +129,7 @@ public class MyFlutterActivity extends AppCompatActivity {
     private FlutterEngine createFlutterEngine() {
         // 实例化FlutterEngine对象
         FlutterEngine flutterEngine = new FlutterEngine(this);
-        // 设置初始路由
+        // 设置初始路由,默认情况下FlutterEngine加载的路由名称为"/"，
         flutterEngine.getNavigationChannel().setInitialRoute("route1?{\"name\":\"" + getIntent().getStringExtra("name") + "\"}");
         // 开始执行dart代码来pre-warm FlutterEngine
         flutterEngine.getDartExecutor().executeDartEntrypoint(
