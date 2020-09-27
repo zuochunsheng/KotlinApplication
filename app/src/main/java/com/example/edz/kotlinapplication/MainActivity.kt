@@ -1,6 +1,5 @@
 package com.example.edz.kotlinapplication
 
-import com.example.edz.kotlinapplication.R
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -10,20 +9,16 @@ import android.view.Gravity
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bixin.bixingaigai.permission.PermissionHelper
 import com.example.edz.kotlinapplication.actual.toast
-import com.example.edz.kotlinapplication.chapter.list
-import com.google.gson.Gson
-import com.example.edz.kotlinapplication.service.HttpResultObserver
-import com.example.edz.kotlinapplication.service.User
-import com.example.edz.kotlinapplication.service.api
 import io.reactivex.Observable
-import io.reactivex.ObservableOnSubscribe
 import io.reactivex.ObservableSource
-import io.reactivex.functions.Consumer
 import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
-import java.util.*
+import kotlinx.android.synthetic.main.activity_main.*
+
 
 //kotlin 封装：
 fun <V : View> Activity.bindView(id: Int): Lazy<V> = lazy {
@@ -40,7 +35,7 @@ class MainActivity : AppCompatActivity() {
 
     val EXTRA_MESSAGE_MAIN = "com.example.edz.kotlinapplication.MESSAGE"
 
-    //在activity中的使用姿势
+    //在activity中的使用姿势 ,buyong
     val mTextView by bindView<TextView>(R.id.tv_text)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +43,34 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
+        // 第二个参数 (PermissionHelper.OnPermissionListener) new MainActivity$onCreate$1(this),
+        PermissionHelper.requestPermissions(
+                this , listener(this),
+                "android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.READ_EXTERNAL_STORAGE"
+        )
+    }
+
+    class listener constructor(val context: MainActivity) : PermissionHelper.OnPermissionListener {
+        override fun onDenied() {//拒绝
+            Toast.makeText(context, "需要存储权限", Toast.LENGTH_SHORT).show();
+        }
+
+        override fun onGranted() {
+            context.initView();
+        }
+
+    }
+    fun initView() {
+        val mTextView = tv_text; // id ,shiyong
+        val that = this;
+
+        var androidId = "android"
+        var uuid = "uuid"
+        // text.text= "当前androidId："+androidId + ",\nuuid:"+uuid
+        mTextView.text = """
+            |androidId：$androidId
+            |uuid: $uuid
+        """.trimMargin()
     }
 
     fun skipNext(view: View) {
@@ -58,6 +81,8 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, DisplayMessageActivity::class.java)
                 .apply { putExtra(EXTRA_MESSAGE_MAIN, message) }
         startActivity(intent)
+
+        //val inputId = message.trim()
     }
 
     fun skipNextCoroutine(view: View) {
@@ -83,6 +108,7 @@ class MainActivity : AppCompatActivity() {
 //        val intent = Intent(this, RetrofitRxKotlinActivity::class.java)
 //        startActivity(intent)
         toast("skipNextRetrofitKotlin")
+        Log.e("tag","skipNextRetrofitKotlin");
         //actionFlatMap();
 
         //actionSwitchMap0();
@@ -117,7 +143,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }).subscribe(
                         { num -> Log.e("Operations", "accept=" + num + Thread.currentThread()?.name) },
-                        { t -> println(t) },
+                        { t -> {println(t); println("error")} },
                         {  println("complete")}
                 )
 

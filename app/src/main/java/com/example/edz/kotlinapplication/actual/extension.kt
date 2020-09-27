@@ -1,9 +1,10 @@
 package com.example.edz.kotlinapplication.actual
 
 import android.annotation.SuppressLint
+import android.app.Fragment
 import android.content.Context
 import android.widget.Toast
-import androidx.fragment.app.Fragment
+
 
 /**
  * anther: created by zuochunsheng on 2019/11/5 09 : 34
