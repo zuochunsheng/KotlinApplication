@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/TestKotlin.iml" filepath="$PROJECT_DIR$/TestKotlin.iml" group="TestKotlin" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="TestKotlin/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/TestKotlin.iml" filepath="$PROJECT_DIR$/.idea/TestKotlin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/TestKotlin.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/TestKotlin.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1895215246/TestKotlin.flutter.iml" filepath="$PROJECT_DIR$/.idea/modules/1895215246/TestKotlin.flutter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/604404751/TestKotlin.my_flutter.iml" filepath="$PROJECT_DIR$/.idea/modules/604404751/TestKotlin.my_flutter.iml" />
     </modules>
   </component>
 </project>

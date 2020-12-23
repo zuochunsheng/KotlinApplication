@@ -72,6 +72,12 @@ class MainActivity : AppCompatActivity() {
             |androidId：$androidId
             |uuid: $uuid
         """.trimMargin()
+
+        //在 onCreate() 和 onResume() 中是无法获取到宽高的，而 View.post() 回调中可以
+        // 在 View.post() 回调中获取宽高
+        mTextView.post {
+            Log.e("measure","measure in View.post: width=${window.decorView.width}, height=${window.decorView.height}")
+        }
     }
 
     fun skipNext(view: View) {
@@ -209,6 +215,10 @@ class MainActivity : AppCompatActivity() {
 
     fun log(log: String) {
         Log.e("FlatMap", log)
+    }
+
+    fun method(msg:String){
+
     }
 
 
