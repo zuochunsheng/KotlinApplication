@@ -1,8 +1,5 @@
 package com.example.edz.kotlinapplication.netchapter
 
-import com.example.edz.kotlinapplication.chapter.Person
-import java.lang.reflect.Method
-import java.util.*
 import kotlin.reflect.KTypeParameter
 
 /**
@@ -12,7 +9,7 @@ import kotlin.reflect.KTypeParameter
  */
 
 //: Any()
-open class Person constructor(var name: String, var age: Int) {
+open class Person constructor(var name: String, isMarried: Boolean) {
 
     fun eat(){
         println("chifan")
@@ -26,7 +23,7 @@ open class Person constructor(var name: String, var age: Int) {
 
 
 annotation class MyAutoware
-class Student @MyAutoware public constructor(name: String, isMarried: Boolean) : Person(name, true) {
+class Student @MyAutoware public constructor(name: String,isMarried: Boolean) : Person(name, true) {
     var age: Int = 0
 
     //主构造函数不能包括任何代码。初始化代码可以放到以init关键字作为前缀的初始化块中

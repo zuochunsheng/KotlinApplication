@@ -26,7 +26,7 @@ fun main(args: Array<String>) {
     //println(list.slice(0..2))
     //println(list.slice(listOf(0, 4, 80)))  //java.lang.ArrayIndexOutOfBoundsException: 80
 
-   // println(list.flatMap { listOf(it, it + 1) })
+    println(list.flatMap { listOf(it, it + 1) })
 
    // println(list.groupBy { if (it % 2 == 0) "even" else "odd" })
 

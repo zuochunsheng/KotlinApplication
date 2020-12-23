@@ -1,8 +1,7 @@
 package com.example.edz.kotlinapplication.test
 
-import com.example.edz.kotlinapplication.R
-import com.example.edz.kotlinapplication.data.Persion
-import com.example.edz.kotlinapplication.data.Student
+import com.example.edz.kotlinapplication.netchapter.Person
+import com.example.edz.kotlinapplication.netchapter.Student
 import kotlin.collections.ArrayList
 import kotlin.concurrent.thread
 
@@ -28,12 +27,12 @@ fun main(args: Array<String>) {
 
     //java: // ? extends ,list集合 只能获取 ，不能修改
     // kt:// out 只能获取 ，不能修改
-    var list: MutableList<out Persion> = ArrayList<Student>()
+    var list: MutableList<out Person> = ArrayList<Student>()
 
 
     //java:// ? supper ,list集合 不能获取 ，能修改
     //kt:// in 不能获取 ，能修改
-    var list2 :MutableList<in Student> = ArrayList<Persion>();
+    var list2 :MutableList<in Student> = ArrayList<Person>();
 
     // 系统的使用线程
    var t : Thread = thread {
